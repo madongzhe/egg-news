@@ -1,0 +1,106 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}
+文章列表
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        文章列表
+    </h1>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-tachometer"></i> 仪表盘</li>
+      <li>文章</li>
+      <li class="active">列表</li>
+    </ol>
+</section>
+<section class="content">
+  <div class="box box-default">
+    <div class="box-body">
+      <form action="" method="post" class="form-inline">
+          <div class="form-group form-group-sm">
+              <label for="">文章标题：</label>
+              <input type="text" class="form-control">
+          </div>
+          <div class="form-group form-group-sm">
+              <label for="">分类:</label>
+              <select name="" class="form-control">
+                  <option value="">请选择</option>
+              </select>
+          </div>
+          <div class="form-group">
+              <button class="btn btn-sm btn-primary">查询</button>
+          </div>
+      </form>
+    </div>
+    <div class="box-body">
+        <a href="/admin/article/add" class="btn btn-sm btn-danger">新增</a>
+    </div>
+    <div class="box-body" id="app">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>文章标题</th>
+                    <th style="width: 160px;">文章分类</th>
+                    <th style="width: 180px;">添加日期</th>
+                    <th style="width: 160px;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in rows">
+                    <td v-text="item.title"></td>
+                    <td v-text="item.category.name"></td>
+                    <td v-text="formatDate(item.createdAt,'YYYY-MM-DD hh:mm:ss')"></td>
+                    <td>
+                        <a :href="'/admin/article/edit/'+item.id" class="btn btn-xs btn-link">修改</a>
+                        <button class="btn btn-xs btn-link text-orange" @click="isdel(item.id)">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer pages clearfix">
+        <ul class="page" maxshowpageitem="5" pagelistcount="10"  id="page"></ul>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var  data = {{res|safe}};
+        var vm = new Vue({
+            el: '#app',
+            data: data,
+            methods: {
+            }
+        })
+        $("#page").initPage(vm.count, 1, page);
+        function page(i) {
+            ajaxpost('/admin/article/post_list',{page:i},function(res){
+                        if(res.code === '200') {
+                            vm.rows = res.data.rows;
+                        }
+                    })
+        }
+        function isdel(id) {
+            $.confirm('是否确定删除？',function(state){
+                if(state){
+                    ajaxpost('/admin/article/del',{id: id}, function(res){
+                        if(res.code === '200'){
+                            $.modals('success', '删除成功');
+                            $('#msg').on('hidden.bs.modal', function (e) {
+                                window.location.href = '/admin/article/list';
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+{% endblock %}

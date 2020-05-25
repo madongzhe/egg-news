@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="favicon.ico"> 
+  <title>管理中心</title>
+  <link rel="stylesheet" href="/public/admin/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/public/admin/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/public/admin/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/public/admin/css/skin-blue.css">
+  <link rel="stylesheet" href="/public/admin/css/font-awesome.min.css">
+</head>
+<body class="skin-blue fixed sidebar-mini sidebar-mini-expand-feature">
+  <div class="wrapper">
+  
+    <header class="main-header">
+      <div class="logo">
+        <span class="logo-mini">
+          <img src="/public/admin/images/logo.png" width="45" alt="">
+        </span>
+        <span class="logo-lg"><img src="/public/admin/images/logo.png" width="45" alt="">管理后台</span>
+      </div>
+      <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <span class="sr-only">菜单切换</span>
+        </a>
+  
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <li class="dropdown user user-menu">
+              <a class="dropdown-toggle" data-toggle="dropdown" style="background-color: initial;color: #fff;">
+                <img src="/public/admin/images/avatar.png" class="user-image" alt="User Image">
+                <span class="hidden-xs">管理员</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="control-sidebar" onclick="logout()" title="退出"><i class="fa fa-power-off"></i></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- 左边菜单 -->
+    <aside class="main-sidebar">
+      <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+          <li class="active">
+            <a href="/admin/home" target="iframe0">
+              <i class="fa fa-tachometer"></i> <span>仪表盘</span>
+            </a>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-cog"></i>
+              <span>网站设置</span>
+              <span class="pull-right-container">
+                <i class="iconfont icon-arrow-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/admin/site" target="iframe0">设置</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-sitemap"></i>
+              <span>文章分类</span>
+              <span class="pull-right-container">
+                <i class="iconfont icon-arrow-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/admin/category" target="iframe0">分类列表</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-newspaper-o"></i>
+              <span>文章管理</span>
+              <span class="pull-right-container">
+                <i class="iconfont icon-arrow-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/admin/article/list" target="iframe0">文章列表</a></li>
+              <li><a href="/admin/article/add" target="iframe0">添加文章</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-files-o"></i>
+              <span>采集器</span>
+              <span class="pull-right-container">
+                <i class="iconfont icon-arrow-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/admin/collect/list" target="iframe0">采集列表</a></li>
+              <li><a href="/admin/collect/add" target="iframe0">添加采集</a></li>
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-clipboard"></i>
+              <span>媒体管理</span>
+              <span class="pull-right-container">
+                <i class="iconfont icon-arrow-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/admin/source" target="iframe0">媒体列表</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="/admin/link" target="iframe0">
+              <i class="fa fa-link"></i> <span>友情链接</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </aside>
+    <!-- 内容 -->
+    <div class="content-wrapper">
+        <iframe src="/admin/home" name="iframe0" style=" width: 100%; height: calc(100vh - 110px);" frameborder="0"></iframe>
+    </div>
+    <!-- 尾部 -->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0
+        </div>
+        <strong>
+            Copyright &copy; 2020 {{site.name}}
+        </strong>
+    </footer>
+  </div>
+  <!-- 全局js -->
+  <script src="/public/admin/js/jquery.min.js"></script>
+  <script src="/public/admin/js/bootstrap.min.js"></script>
+  <script src="/public/admin/js/jquery.slimscroll.min.js"></script>
+  <script src="/public/admin/js/adminlte.min.js"></script>
+  <script src="/public/admin/js/common.js"></script>
+  <script>
+    $('.sidebar').on('click','li',function(){
+      var url = $(this).children('a').attr('href');
+      if(url!='#'&&url!=undefined){
+        $('.sidebar li').removeClass('active');
+        $(this).closest('li').addClass('active');
+        $(this).closest('.menu-open').addClass('active');
+      }
+    })
+    function logout(){
+       $.confirm('是否确定退出系统？',isLogout.bind(this));
+    }
+    function isLogout(e){
+      if(e){
+        window.location.href='/logout'
+        console.log('登出')
+      }
+    }
+  </script>
+</body>
+</html>

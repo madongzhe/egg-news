@@ -1,0 +1,19 @@
+<div class="ui-box">
+  <div class="pane-module">
+    <div class="module-head">24小时热闻</div>
+    <ul class="module-content article-list">
+      {% for item in hotnews %}
+      <li class="article-item">
+        <a href="/p/{{item.id}}" target="_blank" class="news-link">
+          <div class="module-pic news-pic">
+            <img src="{{item.images|image}}" lazy="loaded">
+          </div>
+          <div class="news-inner">
+            <p class="module-title">{{item.title}}</p>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

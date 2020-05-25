@@ -1,0 +1,21 @@
+<div class="channel">
+  <a class="wchannel" href="/">
+    <img src="/public/logo.png" width="100%" alt="" class="logo">
+  </a>
+  <ul>
+    <li>
+      <a href="/" class="channel-item {% if url === '/' %}active{% endif %}">
+        <span>推荐</span>
+      </a>
+    </li>
+    {% for item in menus %}
+    <li>
+        <a href="/category/{{item.englishName}}"
+        class="channel-item {% if url === '/category/' + item.englishName %}active{% endif %}"
+        >
+          <span>{{item.name}}</span>
+        </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

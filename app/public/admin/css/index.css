@@ -1,0 +1,168 @@
+@charset "UTF-8";
+.content-wrapper {
+  margin: 0;
+  min-height: 100%;
+}
+
+.times {
+  display: block;
+  margin: 15px 0;
+}
+
+.times ul {
+  padding: 0;
+  margin-left: 25px;
+  margin-bottom: 0;
+  border-left: 2px solid #ddd;
+  list-style-type: none;
+}
+
+.times ul li {
+  width: 100%;
+  margin-left: -10px;
+  line-height: 20px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.times ul li b {
+  width: 10px;
+  height: 10px;
+  background: #C93935;
+  box-shadow: 0 0 0 4px #eee, 0 0 0 3px #fff;
+  margin: 4px 20px 5px 4px;
+  border-radius: 50%;
+  overflow: hidden;
+  float: left;
+}
+
+.times ul li > div {
+  margin-left: 40px;
+  padding: 3px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  position: relative;
+}
+
+.times ul li > div:before {
+  /*这里的伪元素用单冒号和双冒号都一样*/
+  content: '';
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: -7px;
+  border-top: 10px solid transparent;
+  border-right: 10px solid #f5f5f5;
+  border-bottom: 10px solid transparent;
+}
+
+.times ul li > div > div:first-child {
+  color: #999;
+  font-size: 12px;
+}
+
+.radioStyle input {
+  display: none;
+}
+
+.radioStyle > label {
+  font-weight: initial;
+}
+
+.radioStyle > label .radioStyle-title {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.radioStyle > label > div {
+  border: 1px solid #CCC;
+  color: #666;
+  padding: 2px 10px 2px 5px;
+  line-height: 28px;
+  min-width: 80px;
+  float: left;
+  margin: 2px;
+  border-radius: 4px;
+}
+
+.radioStyle > label > input:checked + div {
+  background: url(../images/ico_checkon.svg) no-repeat right bottom;
+  border: 1px solid #00a4ff;
+  background-size: 21px 21px;
+}
+
+.table .form-group {
+  margin-bottom: 0;
+}
+
+.table > thead {
+  background-color: #d9edf7;
+}
+
+.file-img > label {
+  position: relative;
+  margin: 10px;
+}
+
+.file-img > label > span {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+}
+
+.file-img > label:last-child :hover {
+  background-color: #eee;
+}
+
+.pages {
+  text-align: center;
+}
+
+.pages span {
+  line-height: 55px;
+  vertical-align: bottom;
+  overflow: hidden;
+}
+
+.pages .page {
+  font-size: 12px;
+  padding: 4px;
+  display: inline-block;
+  list-style: none;
+}
+
+.pages .page > li {
+  float: left;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.pages .page .pageItem {
+  border: solid thin #ddd;
+  margin: 5px;
+}
+
+.pages .page .pageItemActive {
+  border: solid thin #337ab7;
+  margin: 5px;
+  background-color: #337ab7;
+  color: #eee;
+}
+
+.pages .page .pageItem:hover {
+  border: solid thin #337ab7;
+  background-color: #337ab7;
+  color: #eee;
+}
+
+.pages .page .pageItemDisable {
+  cursor: no-drop;
+  border: solid thin #ddd;
+  margin: 5px;
+  background-color: #eee;
+  color: #aaa;
+}
+
+.pages .page .pageItemDisable .btn {
+  margin-left: 5px;
+}

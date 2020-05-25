@@ -1,0 +1,63 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}
+修改媒体
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+      修改媒体
+    </h1>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-tachometer"></i> 仪表盘</li>
+      <li>媒体</li>
+      <li class="active">添加</li>
+    </ol>
+</section>
+<section class="content">
+  <div class="box box-default">
+    <form action="" method="post" class="form-horizontal">
+      <input type="text" name="id" value="{{res.id}}" class="hide">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">媒体名称：</label>
+          <div class="col-xs-8">
+            <input type="text" name="source_name" value="{{res.sourceName}}" class="form-control" data-validate="required:媒体名称不能空">
+            <div class="field text-danger"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-8 col-xs-offset-2">
+            <button type="button" class="btn btn-default" onclick="JavaScript:window.history.back()">返回</button>
+            <button type="button" onclick="save()" class="btn btn-primary">提交</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/public/admin/js/wangEditor.js" ></script>
+<script type="text/javascript">
+  
+  function save(){
+    if($('form').submits()){
+      ajaxpost('/admin/source/post_edit',$('form').serialize(),function(res){
+        if(res.code === '200'){
+          $.modals('success','保存成功');
+          $('#msg').on('hidden.bs.modal', function (e) {
+              window.location.href = '/admin/source';
+            });
+        }
+      })
+    }
+  }
+</script>
+{% endblock %}

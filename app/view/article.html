@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{article.title}}-{{site.name}}
+{% endblock %}
+
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+        <div class="pull-left chinese-tag">
+            <a href="/" target="_blank">首页</a>
+            /
+            <a href="/category/{{article.category.englishName}}" target="_blank">{{article.category.name}}</a>
+            /
+            <span class="text">正文</span>
+        </div>
+        <div class="pull-right">
+            <div class="search-wrapper">
+                <div class="input-group input-group-lg">
+                  <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
+                  </span>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="article-container clearfix">
+    <div class="pull-left index-left"></div>
+    <div class="pull-left index-middle">
+        <div class="pull-left article-content" id="app">
+            <div class="article-box">
+                <h1 class="article-title">{{article.title}}</h1>
+                <div class="article-sub">
+                    <span>{{article.source.sourceName}}</span>
+                    <span>{{article.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+                </div>
+                <div class="article-content">
+                    {{article.content|safe}}
+                </div>
+            </div>
+        </div>
+        <div class="pull-left article-content">
+
+        </div>
+    </div>
+    <div class="pull-right index-right"></div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

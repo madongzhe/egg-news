@@ -1,0 +1,50 @@
+<div class="pages" style="margin-top: 20px;">
+  <ul class="page">
+    {% set p = res.page %}
+    {% set maxp = res.maxp %}
+    {% set path = res.rows[0].category.englishName %}
+    {% if p > maxp - 3 %}
+      {% set n = maxp - 4 %}
+    {% elif p >= 3 %}
+      {% set n = p - 2 %}
+    {% else %}
+      {% set n = 1 %}
+    {% endif %}
+    {% if p + 2 >= maxp %}
+      {% set m = maxp + 1 %}
+    {% elif 3 > p %}
+      {% set m = 6 %}
+    {% else %}
+      {% set m = p + 3 %}
+    {% endif %}
+    {% if p > 1 %}
+    <a href="/category/{{path}}/{{p-1}}">
+      <li class="pageItem">
+        上一页
+      </li>
+    </a>
+    {% endif %}
+    {% for i in range(n, m) %}
+      {% if i == p %}
+        <a href="/category/{{path}}/{{i}}">
+          <li class="pageItemActive">
+            {{i}}
+          </li>
+        </a>
+      {% else %}
+        <a href="/category/{{path}}/{{i}}">
+          <li class="pageItem">
+            {{i}}
+          </li>
+        </a>
+      {% endif %}
+    {% endfor %}
+    {% if p < maxp %}
+    <a href="/category/{{path}}/{{p+1}}">
+      <li class="pageItem">
+        下一页
+      </li>
+    </a>
+    {% endif %}
+  </ul>
+</div>

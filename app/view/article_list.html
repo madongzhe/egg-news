@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{res.rows[0].category.name}} - {{site.name}}
+{% endblock %}
+
+{% block content %}
+<div class="index-container clearfix">
+    <div class="pull-left index-channel">
+      {% include "leftmenu.html" %}
+    </div>
+    <div class="pull-left index-content" id="app">
+        <ul>
+          {% for item in res.rows %}
+            {% if item.images %}
+              <li>
+                <div class="single-mode">
+                  <div class="pull-left single-mode-lbox">
+                    <a href="/p/{{item.id}}" target="_blank" class="img-wrap"><img class="lazy-load-img" src="{{item.images|image}}" style="width: 160px;" alt=""></a>
+                  </div>
+                  <div class="single-mode-rbox clearfix"><div class="single-mode-rbox-inner"><div class="title-box"><a href="/p/{{item.id}}" target="_blank" class="link">{{item.title}}</a></div><div class="bui-box footer-bar"><a href="#" class="footer-bar-action source">{{item.source.sourceName}}</a><span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span></div></div>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              <li>
+                <div class="no-mode">
+                  <div class="title-box">
+                    <a href="/p/{{item.id}}" target="_blank" class="link">{{item.title}}</a>
+                  </div>
+                  <div class="bui-box footer-bar">
+                    <div class="bui-left footer-bar-left">
+                      <!-- <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" v-text="item.category.name"></a> -->
+                      <a href="#" target="_blank" class="footer-bar-action source">{{item.source.sourceName}}</a>
+                      <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        {% include "common/pages.html" %}
+    </div>
+    <div class="pull-right index-right-bar">
+      <div class="search-wrapper">
+        <div class="input-group input-group-lg">
+          <input type="text" style="font-size: 14px;background-color: #f5f6f7;" class="form-control" placeholder="搜索站内资讯">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
+          </span>
+        </div>
+      </div>
+      <!-- 24小时热闻 -->
+      {% include 'hotnews.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

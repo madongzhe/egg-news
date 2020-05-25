@@ -1,0 +1,174 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}
+ 友情链接
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+      友情链接
+    </h1>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-tachometer"></i> 仪表盘</li>
+      <li>友情链接</li>
+      <li class="active">列表</li>
+    </ol>
+</section>
+<section class="content" id="app">
+  <div class="box box-default">
+    <div class="box-body">
+      <form action="" method="post" class="form-inline">
+          <div class="form-group form-group-sm">
+              <label for="">名称：</label>
+              <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+              <button class="btn btn-sm btn-primary">查询</button>
+          </div>
+      </form>
+    </div>
+    <div class="box-body">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-add">
+            新增
+        </button>
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>连接</th>
+                    <th style="width: 160px;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in rows">
+                    <td v-text="item.linkName"></td>
+                    <td v-text="item.linkUrl"></td>
+                    <td>
+                        <button @click="edit(item)" class="btn btn-xs btn-link">修改</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+  <!-- 新增 -->
+  <div class="modal fade" id="modal-add">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">新增友情连接</h4>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+              <div class="form-group">
+                  <label for="">名称：</label>
+                  <input type="text" name="linkName" class="form-control" v-model="linkName" data-validate="required:名称不能空">
+                  <div class="field text-danger"></div>
+              </div>
+              <div class="form-group">
+                  <label for="">网址：</label>
+                  <input type="text" name="linkUrl" class="form-control" v-model="linkUrl" data-validate="required:网址不能空">
+                  <div class="field text-danger"></div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="post_add()">保存</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- 修改 -->
+  <div class="modal fade" id="modal-edit">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">修改友情链接</h4>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+              <div class="form-group">
+                    <label for="">分类名称：</label>
+                    <input type="text" name="linkName" class="form-control" v-model="edititem.linkName" data-validate="required:名称不能空">
+                    <div class="field text-danger"></div>
+              </div>
+              <div class="form-group">
+                    <label for="">英文名称：</label>
+                    <input type="text" name="linkUrl" class="form-control" v-model="edititem.linkUrl" data-validate="required:网址不能空">
+                    <div class="field text-danger"></div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="post_edit()">保存</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+</section>
+{% endblock %}
+
+{% block script %}
+<script>
+    var  data = {{res|safe}};
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            rows: data,
+            linkName: '',
+            linkUrl: '',
+            edititem: ''
+        },
+        methods: {
+            edit:function(item) {
+                this.edititem = JSON.parse(JSON.stringify(item));
+                $('#modal-edit').modal('show');
+            },
+            post_add:function(){
+              if($('#modal-add').submits()){
+                ajaxpost('/admin/link/post_add',{linkName:this.linkName, linkUrl:this.linkUrl},function(res){
+                    if(res.code === '200') {
+                        $.modals('success','添加成功');
+                        $('#msg').on('hidden.bs.modal',function(){
+                            location.href = '/admin/link'
+                        })
+                    }
+                })
+              }
+            },
+            post_edit:function(){
+              if($('#modal-edit').submits()) {
+                ajaxpost('/admin/link/post_edit',{id:this.edititem.id,linkName:this.edititem.linkName,linkUrl: this.edititem.linkUrl},function(res){
+                    if(res.code === '200') {
+                        $.modals('success','修改成功');
+                        $('#msg').on('hidden.bs.modal',function(){
+                            location.href = '/admin/link'
+                        })
+                    }
+                })
+              }
+            }
+        }
+    })
+
+</script>
+{% endblock %}

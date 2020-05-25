@@ -1,0 +1,158 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}
+添加采集规则
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        添加采集
+    </h1>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-tachometer"></i> 仪表板</li>
+      <li>采集器</li>
+      <li class="active">添加</li>
+    </ol>
+</section>
+<section class="content">
+  <div class="box box-default">
+    <form action="" method="post" class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">采集器名称：</label>
+          <div class="col-xs-8">
+            <input type="text" name="name" class="form-control" data-validate="required:采集器名称不能空">
+            <div class="field text-danger"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">文章分类：</label>
+          <div class="col-xs-8">
+            <select name="category" class="form-control" data-validate="required:文章分类不能空">
+              <option value="">请选择</option>
+              {% for item in category %}
+                <option value="{{item.id}}"
+                >{{item.name}}</option>
+              {% endfor %}
+            </select>
+            <div class="field text-danger"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">文章来源：</label>
+          <div class="col-xs-8">
+            <select name="source_id" class="form-control" data-validate="required:文章分类不能空">
+              <option value="">请选择</option>
+              {% for item in source.rows %}
+                <option value="{{item.id}}" >{{item.sourceName}}</option>
+              {% endfor %}
+            </select>
+            <div class="field text-danger"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">采集网址：</label>
+          <div class="col-xs-8">
+            <input type="text" name="url" class="form-control" data-validate="required:文章来源不能空">
+            <div class="field text-danger"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">采集列表规则：</label>
+          <div class="col-xs-8">
+            <input type="text" name="listreg" class="form-control" placeholder="采用jQuery选择器获取方式" data-validate="required:采集列表规则不能空">
+            <div class="field text-danger"></div>
+          </div>
+          <div class="col-xs-1">
+            <button type="button" onclick="test_list()" class="btn btn-link">测试</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">采集文章标题规则：</label>
+          <div class="col-xs-8">
+            <input type="text" name="titlereg" class="form-control" data-validate="required:采集标题规则不能空">
+            <div class="field text-danger"></div>
+          </div>
+          <div class="col-xs-1">
+            <button type="button" class="btn btn-link" onclick="test_title()">测试</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="" class="col-xs-2 control-label">采集内容规则：</label>
+          <div class="col-xs-8">
+            <input type="text" name="articlereg" class="form-control" data-validate="required:采集内容规则不能空">
+            <div class="field text-danger"></div>
+          </div>
+          <div class="col-xs-1">
+            <button type="button" class="btn btn-link" onclick="test_article()">测试</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-8 col-xs-offset-2">
+            <button type="button" class="btn btn-default" onclick="JavaScript:window.history.back()">返回</button>
+            <button class="btn btn-primary">提交</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  function test_list(url,reg){
+    var url = $('[name="url"]').val();
+    var listreg = $('[name="listreg"]').val();
+    if(!url){
+      $.modals('error','采集网址没填写');
+    }
+    if(!listreg){
+      $.modals('error','采集列表规则没填写');
+    }
+    ajaxpost('/admin/collect/test_list',{url:url,listreg:listreg},function(res) {
+      $.modals('success',res.data.join('<br/>'))
+    })
+  }
+  
+  function test_title(url,reg){
+    var url = $('[name="url"]').val();
+    var listreg = $('[name="listreg"]').val();
+    var titlereg = $('[name="titlereg"]').val();
+    if(!url){
+      $.modals('error','采集网址没填写');
+    }
+    if(!listreg){
+      $.modals('error','采集列表规则没填写');
+    }
+    if(!titlereg){
+      $.modals('error','采集标题规则没填写');
+    }
+    ajaxpost('/admin/collect/test_title',{url:url,listreg:listreg,titlereg:titlereg},function(res) {
+      $.modals('success',res.data)
+    })
+  }
+  function test_article(url,reg){
+    var url = $('[name="url"]').val();
+    var listreg = $('[name="listreg"]').val();
+    var articlereg = $('[name="articlereg"]').val();
+    if(!url){
+      $.modals('error','采集网址没填写');
+    }
+    if(!listreg){
+      $.modals('error','采集列表规则没填写');
+    }
+    if(!articlereg){
+      $.modals('error','采集标题规则没填写');
+    }
+    ajaxpost('/admin/collect/test_article',{url:url,listreg:listreg,articlereg:articlereg},function(res) {
+      $.modals('success',res.data)
+    })
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,164 @@
+.content-wrapper {
+    margin: 0;
+    min-height: 100%;
+}
+
+// 时间轴
+.times {
+    display: block;
+    margin: 15px 0;
+
+    ul {
+        padding: 0;
+        margin-left: 25px;
+        margin-bottom: 0;
+        border-left: 2px solid #ddd;
+        list-style-type: none;
+
+        li {
+            width: 100%;
+            margin-left: -10px;
+            line-height: 20px;
+            overflow: hidden;
+            margin-bottom: 12px;
+
+            b {
+                width: 10px;
+                height: 10px;
+                background: #C93935;
+                box-shadow: 0 0 0 4px #eee, 0 0 0 3px #fff;
+                margin: 4px 20px 5px 4px;
+                border-radius: 50%;
+                overflow: hidden;
+                // display:inline-block;
+                float: left;
+            }
+
+            >div {
+                margin-left: 40px;
+                padding: 3px;
+                background: #f5f5f5;
+                border-radius: 5px;
+                position: relative;
+
+                &:before {
+                    /*这里的伪元素用单冒号和双冒号都一样*/
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 1px;
+                    left: -7px;
+                    border-top: 10px solid transparent;
+                    border-right: 10px solid #f5f5f5;
+                    border-bottom: 10px solid transparent;
+                }
+                >div:first-child{
+                    color: #999;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+// 选择框样式
+.radioStyle{
+    input {
+        display: none
+    }
+    >label{
+        font-weight: initial;
+        .radioStyle-title{
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        >div {
+          border: 1px solid #CCC;
+          color: #666;
+          padding: 2px 10px 2px 5px;
+          line-height: 28px;
+          min-width: 80px;
+          float: left;
+          margin: 2px;
+          border-radius: 4px
+        }
+        >input:checked + div {
+          background: url(../images/ico_checkon.svg) no-repeat right bottom;
+          border: 1px solid #00a4ff;
+          background-size: 21px 21px;
+        }
+    }
+} 
+
+// table表单样式
+.table .form-group{
+    margin-bottom: 0;
+}
+// table表头颜色
+.table{
+    >thead{
+        background-color: #d9edf7;
+    }
+}
+// 上传图片列表
+.file-img{
+    >label{
+        position: relative;
+        margin: 10px;
+        >span{
+            position: absolute;
+            top:-10px;
+            right:-5px;
+        }
+    }
+    >label:last-child{
+        :hover{
+            background-color: #eee;
+        }
+    }
+}
+// 分页样式
+.pages{
+    text-align: center;
+    span{
+        line-height: 55px;
+        vertical-align: bottom;
+        overflow: hidden;
+    }
+    .page{
+        font-size: 12px;
+        padding: 4px;
+        display:inline-block;
+        list-style: none;
+        &>li{
+            float: left;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .pageItem{
+            border: solid thin #ddd;
+            margin: 5px;
+        }
+        .pageItemActive{
+            border: solid thin #337ab7;
+            margin: 5px;
+            background-color: #337ab7;
+            color:#eee;
+        }
+        .pageItem:hover{
+            border: solid thin #337ab7;
+            background-color: #337ab7;
+            color:#eee;
+        }
+        .pageItemDisable{
+            cursor: no-drop;
+            border: solid thin #ddd;
+            margin: 5px;
+            background-color: #eee;
+            color:#aaa;
+            .btn{
+                margin-left: 5px;
+            }
+        }
+    }
+}

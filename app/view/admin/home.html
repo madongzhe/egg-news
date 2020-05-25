@@ -1,0 +1,72 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        仪表盘
+    </h1>
+    <ol class="breadcrumb">
+      <li  class="active"><i class="fa fa-tachometer"></i> 仪表盘</li>
+    </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-aqua"><i class="fa fa-newspaper-o"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">今日新增文章</span>
+          <span class="info-box-number">0</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-red"><i class="fa fa-files-o"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">采集器</span>
+          <span class="info-box-number">0</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-green"><i class="fa fa-clipboard"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">媒体数量</span>
+          <span class="info-box-number">0</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">用户数量</span>
+          <span class="info-box-number">0</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+  </div>
+</section>
+{% endblock %}

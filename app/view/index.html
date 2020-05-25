@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{site.name}}
+{% endblock %}
+
+{% block content %}
+    <div class="index-container clearfix">
+        <div class="pull-left index-channel">
+            {% include "leftmenu.html" %}
+        </div>
+        <div class="pull-left index-content" id="app">
+            <ul>
+              <template v-for="item in rows">
+                <li v-if="item.images">
+                    <div class="single-mode">
+                        <div class="pull-left single-mode-lbox">
+                          <a :href="'/p/'+item.id" target="_blank" class="img-wrap">
+                            <img class="lazy-load-img" :src="item.images.split(',')[0]" style="width: 160px;" alt="">
+                          </a>
+                        </div>
+                        <div class="single-mode-rbox clearfix">
+                          <div class="single-mode-rbox-inner">
+                            <div class="title-box">
+                              <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
+                            </div>
+                            <div class="bui-box footer-bar">
+                              <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag tag-style-society" v-text="item.category.name"></a>
+                              <a href="#" class="footer-bar-action source" v-text="item.source.sourceName"></a>
+                              <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </li>
+                <li v-else>
+                  <div class="no-mode">
+                    <div class="title-box">
+                      <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
+                    </div>
+                    <div class="bui-box footer-bar">
+                      <div class="bui-left footer-bar-left">
+                        <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" v-text="item.category.name"></a>
+                        <a href="#" target="_blank" class="footer-bar-action source" v-text="item.source.sourceName"></a>
+                        <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </template>
+            </ul>
+        </div>
+        <div class="pull-right index-right-bar">
+          <div class="search-wrapper">
+            <div class="input-group input-group-lg">
+              <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
+              </span>
+            </div>
+          </div>
+          <!-- 24小时热闻 -->
+          {% include 'hotnews.html' %}
+          <!-- 友情链接 -->
+          <div class="ui-box">
+            <div class="pane-module">
+              <div class="module-head">友情链接</div>
+              <ul class="friend-links-content">
+                {% for item in link %}
+                <li class="item">
+                  <a rel="noopener noreferrer" target="_blank" href="{{item.linkUrl}}">{{item.linkName}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    var data = {{res|safe}};
+    var vm = new Vue({
+      el: '#app',
+      data: data,
+      methods: {
+        resdata: function () {
+          $.ajax({
+            url:'',
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            data:$('form').serialize(),
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+            },
+            success: function (res) {
+              if(res.code === '200'){
+                vm.list.push(res.data);
+              }
+            },
+            error: function(err){
+                $.alerts('danger','网络连接失败');
+            }
+          })
+        }
+      },
+    })
+  </script>
+{% endblock %}

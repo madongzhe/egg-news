@@ -1,0 +1,52 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<section class="content-header">
+    <h1>
+        网站设置
+    </h1>
+    <ol class="breadcrumb">
+      <li  class="active"><i class="fa fa-tachometer"></i> 仪表盘</li>
+      <li class="active">网站设置</li>
+    </ol>
+</section>
+<section class="content">
+  <div class="box box-default" class="form-horizontal">
+    <form action="" method="post">
+      <input type="text" name="id" value="{{site.id}}" class="hide">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="">网站名称</label>
+          <input type="text" name="name" value="{{site.name}}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="">网站域名</label>
+          <input type="text" name="domain" value="{{site.domain}}" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="">网站统计</label>
+          <textarea name="statistics" id="" rows="4" class="form-control">{{site.statistics}}</textarea>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-default" onclick="JavaScript:window.history.back()">返回</button>
+          <button type="button" class="btn btn-primary" onclick="post_save()">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+  <script>
+    function post_save(){
+      ajaxpost('/admin/post_site',$('form').serialize(),function(res){
+        if(res.code === '200') {
+          $.modals('success','保存成功！');
+        }else{
+          $.modals('error','保存失败！');
+        }
+      })
+    }
+  </script>
+{% endblock %}

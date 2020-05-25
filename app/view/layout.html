@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="/punlic/favicon.ico"> 
+  <title>{% block title %}{% endblock %}</title>
+  <!-- <link href="/public/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="/public/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/public/css/index.css" rel="stylesheet">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="header">
+    {% include 'hender.html' %}
+    {% block header %} {% endblock %}
+  </div>
+  <div class="content">
+    {% block content %} {% endblock %}
+  </div>
+  {% block footer %}
+    <div class="footer">
+      ©2020 jikedili
+    </div>
+  {% endblock %}
+  <!-- 全局js -->
+  <script src="/public/js/jquery.min.js"></script>
+  <script src="/public/js/jquery.cookie.min.js"></script>
+  <!-- <script src="/public/js/bootstrap.min.js"></script> -->
+  <script src="/public/js/vue.min.js"></script>
+  <script src="/public/js/vue.filter.js"></script>
+  <script src="/public/js/common.js"></script>
+  {% block script %}{% endblock %}
+  <script>
+    {{site.statistics}}
+  </script>
+</body>
+</html>
