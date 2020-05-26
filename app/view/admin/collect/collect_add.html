@@ -65,7 +65,7 @@
         <div class="form-group">
           <label for="" class="col-xs-2 control-label">采集列表规则：</label>
           <div class="col-xs-8">
-            <input type="text" name="listreg" class="form-control" placeholder="采用jQuery选择器获取方式" data-validate="required:采集列表规则不能空">
+            <input type="text" name="listrule" class="form-control" placeholder="采用jQuery选择器获取方式" data-validate="required:采集列表规则不能空">
             <div class="field text-danger"></div>
           </div>
           <div class="col-xs-1">
@@ -75,7 +75,7 @@
         <div class="form-group">
           <label for="" class="col-xs-2 control-label">采集文章标题规则：</label>
           <div class="col-xs-8">
-            <input type="text" name="titlereg" class="form-control" data-validate="required:采集标题规则不能空">
+            <input type="text" name="titlerule" class="form-control" data-validate="required:采集标题规则不能空">
             <div class="field text-danger"></div>
           </div>
           <div class="col-xs-1">
@@ -85,7 +85,7 @@
         <div class="form-group">
           <label for="" class="col-xs-2 control-label">采集内容规则：</label>
           <div class="col-xs-8">
-            <input type="text" name="articlereg" class="form-control" data-validate="required:采集内容规则不能空">
+            <input type="text" name="articlerule" class="form-control" data-validate="required:采集内容规则不能空">
             <div class="field text-danger"></div>
           </div>
           <div class="col-xs-1">
@@ -95,7 +95,7 @@
         <div class="form-group">
           <div class="col-xs-8 col-xs-offset-2">
             <button type="button" class="btn btn-default" onclick="JavaScript:window.history.back()">返回</button>
-            <button class="btn btn-primary">提交</button>
+            <button type="button" onclick="post_add()" class="btn btn-primary">提交</button>
           </div>
         </div>
       </div>
@@ -106,52 +106,79 @@
 
 {% block script %}
 <script type="text/javascript">
-  function test_list(url,reg){
+  function post_add() {
+    if($('form').submits()){
+      ajaxpost('/admin/collect/post_add',$("form").serialize(),function(res){
+        if(res.code === '200'){
+          $.modals('success', '保存成功');
+          $('#msg').on('hidden.bs.modal', function (e) {
+              window.location.href = '/admin/collect/list';
+          });
+        } else {
+          $.modals('error',res.msg)
+        }
+      })
+    }
+  }
+
+  function test_list(url,rule){
     var url = $('[name="url"]').val();
-    var listreg = $('[name="listreg"]').val();
+    var listrule = $('[name="listrule"]').val();
     if(!url){
       $.modals('error','采集网址没填写');
     }
-    if(!listreg){
+    if(!listrule){
       $.modals('error','采集列表规则没填写');
     }
-    ajaxpost('/admin/collect/test_list',{url:url,listreg:listreg},function(res) {
-      $.modals('success',res.data.join('<br/>'))
+    ajaxpost('/admin/collect/test_list',{url:url,listrule:listrule},function(res) {
+      if(res.code === '200') {
+        $.modals('success',res.data.join('<br/>'))
+      } else {
+        $.modals('error', res.msg)
+      }
     })
   }
   
-  function test_title(url,reg){
+  function test_title(url,rule){
     var url = $('[name="url"]').val();
-    var listreg = $('[name="listreg"]').val();
-    var titlereg = $('[name="titlereg"]').val();
+    var listrule = $('[name="listrule"]').val();
+    var titlerule = $('[name="titlerule"]').val();
     if(!url){
       $.modals('error','采集网址没填写');
     }
-    if(!listreg){
+    if(!listrule){
       $.modals('error','采集列表规则没填写');
     }
-    if(!titlereg){
+    if(!titlerule){
       $.modals('error','采集标题规则没填写');
     }
-    ajaxpost('/admin/collect/test_title',{url:url,listreg:listreg,titlereg:titlereg},function(res) {
-      $.modals('success',res.data)
+    ajaxpost('/admin/collect/test_title',{url:url,listrule:listrule,titlerule:titlerule},function(res) {
+      if(res.code === '200') {
+        $.modals('success',res.data)
+      } else {
+        $.modals('error', res.msg)
+      }
     })
   }
-  function test_article(url,reg){
+  function test_article(url,rule){
     var url = $('[name="url"]').val();
-    var listreg = $('[name="listreg"]').val();
-    var articlereg = $('[name="articlereg"]').val();
+    var listrule = $('[name="listrule"]').val();
+    var articlerule = $('[name="articlerule"]').val();
     if(!url){
       $.modals('error','采集网址没填写');
     }
-    if(!listreg){
+    if(!listrule){
       $.modals('error','采集列表规则没填写');
     }
-    if(!articlereg){
+    if(!articlerule){
       $.modals('error','采集标题规则没填写');
     }
-    ajaxpost('/admin/collect/test_article',{url:url,listreg:listreg,articlereg:articlereg},function(res) {
-      $.modals('success',res.data)
+    ajaxpost('/admin/collect/test_article',{url:url,listrule:listrule,articlerule:articlerule},function(res) {
+      if (res.code === '200') {
+        $.modals('success',res.data)
+      } else {
+        $.modals('error',res.msg)
+      }
     })
   }
 </script>

@@ -178,7 +178,7 @@ class CollectService extends Service {
       $(reg).each((i, item) => {
         const listurl = $(item).attr('href');
         if (listurl) {
-          list.push(listurl.indexOf(':') !== -1 ? listurl : resurl + listurl);
+          list.push(listurl.indexOf('//') !== -1 ? listurl : listurl.substr(0, 1) === '/' ? resurl + listurl : resurl + '/' + listurl);
         }
       });
       return list;
@@ -196,10 +196,12 @@ class CollectService extends Service {
    * @memberof CollectService
    */
   async collectArticle(url, titlereg, reg = '') {
+    const { ctx } = this;
     const headers = {
       'Content-Type': 'application/json; encoding=utf-8',
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
     };
+    ctx.logger.info('采集文章：' + url);
     const result = await this.ctx.curl(url, { dataType: 'text', headers });
     const arrurl = url.split('/');
     arrurl.length = 3;
@@ -224,15 +226,18 @@ class CollectService extends Service {
    * @memberof CollectService
    */
   async downimg(str, resurl) {
+    const { ctx } = this;
     // 解析数据
     const $ = cheerio.load(str, { decodeEntities: false });
     const imgurl = [];
     $('img').each((index, item) => {
       const img = $(item).attr('src');
-      if (img.indexOf('http') !== -1) {
+      ctx.logger.info('采集图片：' + img);
+      if (img.indexOf('//') !== -1) {
         imgurl.push(img);
       } else {
-        imgurl.push(resurl + img);
+        resurl = resurl + img.substr(0, 1) === '/' ? img : '/' + img;
+        imgurl.push(resurl);
       }
     });
     for (let index = 0; index < imgurl.length; index++) {
@@ -308,7 +313,7 @@ class CollectService extends Service {
             },
           });
           if (iscollecturl) {
-            ctx.logger.info('采集重复,放弃采集');
+            ctx.logger.info('采集重复,放弃采集：' + collecturl);
           } else {
             const { title, content } = await this.collectArticle(collecturl, collect[i].titlerule, collect[i].articlerule);
             if (title.length > 1 && content.length > 1) {

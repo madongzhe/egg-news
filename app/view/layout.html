@@ -23,6 +23,8 @@
   {% block footer %}
     <div class="footer">
       ©2020 jikedili
+      <!-- 统计代码 -->
+      {{site.statistics|safe}}
     </div>
   {% endblock %}
   <!-- 全局js -->
@@ -33,8 +35,5 @@
   <script src="/public/js/vue.filter.js"></script>
   <script src="/public/js/common.js"></script>
   {% block script %}{% endblock %}
-  <script>
-    {{site.statistics}}
-  </script>
 </body>
 </html>
