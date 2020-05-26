@@ -1,6 +1,14 @@
 # news
 
-新闻网
+## 极客新闻网
+
+前端
+
+![前端页面](app/public/images/qianduan.jpg)
+
+后台页面
+
+![前端页面](app/public/images/houduan.jpg)
 
 ## QuickStart
 
