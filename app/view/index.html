@@ -25,7 +25,7 @@
                               <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
                             </div>
                             <div class="bui-box footer-bar">
-                              <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag tag-style-society" v-text="item.category.name"></a>
+                              <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag"  :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
                               <a href="#" class="footer-bar-action source" v-text="item.source.sourceName"></a>
                               <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
                             </div>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="bui-box footer-bar">
                       <div class="bui-left footer-bar-left">
-                        <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" v-text="item.category.name"></a>
+                        <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
                         <a href="#" target="_blank" class="footer-bar-action source" v-text="item.source.sourceName"></a>
                         <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
                       </div>
