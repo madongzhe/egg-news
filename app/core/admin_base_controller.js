@@ -3,7 +3,7 @@
 const { Controller } = require('egg');
 class BaseController extends Controller {
   get user() {
-    return this.ctx.session.user;
+    return this.ctx.session.admin;
   }
 
   success(data) {

@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+用户反馈-{{site.name}}
+{% endblock %}
+
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+        <div class="pull-left chinese-tag">
+            <a href="/" target="_blank">首页</a>
+            /
+            <span class="text">用户反馈</span>
+        </div>
+        <div class="pull-right">
+            <div class="search-wrapper">
+                <div class="input-group input-group-lg">
+                  <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
+                  </span>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="article-container clearfix">
+    <div class="pull-left index-left"></div>
+    <div class="pull-left index-middle">
+        <form action="" method="post">
+          <div>
+            <label for="">用户反馈</label>
+          </div>
+        </form>
+    </div>
+    <div class="pull-right index-right"></div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

@@ -20,14 +20,15 @@
         <canvas id="demo-canvas" width="1590" height="711"></canvas>
         <div class="login-form">
             <div class="login-content">
-                <h1 class="title_name">后台管理登录</h1>
+                <h2 class="title_name">会员登录</h2>
                 <form method="post" action="" role="form" id="form_login" class="login_padding">
-                    <div class="form-group clearfix">
+                  <div class="tishi" style="position: absolute;top: -25px; width: 370px;"></div>  
+                  <div class="form-group clearfix">
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="icon_user"></i>
                             </div>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="用户名"
+                            <input type="text" class="form-control" name="username" id="username" placeholder="手机号或邮箱"
                                 autocomplete="off">
                         </div>
                     </div>
@@ -40,8 +41,6 @@
                                 autocomplete="off">
                         </div>
                     </div>
-                    <!-- <div class=" textright"><a href="#" class="forget">忘记密码？</a></div> -->
-                    <div class="tishi"></div>
                     <div class="form-group">
                         <button href="javascript:;" type="button" class="btn btn-danger btn-block btn-login"
                             onClick="cliLogin()">
@@ -49,9 +48,9 @@
                             登录
                         </button>
                     </div>
-                    <!-- <div class=" textright"><a href="registered.html" class="forget">立即注册</a></div> -->
-                    <!-- Implemented in v1.1.4 -->
-                    <div class="form-group">
+                    <div class="clearfix">
+                      <div class="pull-left"><a href="#" class="forget">忘记密码？</a></div>
+                      <div class=" pull-right"><a href="/register" class="forget">立即注册</a></div>
                     </div>
                 </form>
             </div>
@@ -84,7 +83,7 @@
             }
             $('.prompt').hide();
             $.ajax({
-                url:'/admin/post_login',
+                url:'/post_login',
                 type:'post',
                 cache:false,
                 data:{
@@ -96,7 +95,7 @@
                 },
                 success: function (res) {
                     if(res.code==='200'){
-                        location.href = '/admin';
+                        location.href = '/';
                     }else{
                         Tip('用户名或密码错误');
                     }

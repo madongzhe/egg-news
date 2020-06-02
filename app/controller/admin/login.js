@@ -21,25 +21,28 @@ class LoginController extends Controller {
    */
   async post_login() {
     const { ctx } = this;
+    console.log('登录');
+    const createRule = {
+      username: 'string',
+      password: 'string',
+    };
+    try {
+      ctx.validate(createRule);
+    } catch (error) {
+      ctx.logger.info('登录参数错误');
+      ctx.helper.fail(422);
+    }
     const { username, password } = ctx.request.body;
-    ctx.logger.info('登录信息:' + ctx.request.body);
     const pwd = crypto.createHash('md5').update(password).digest('hex');
     const res = await ctx.service.admin.login.login(username, pwd);
     if (res) {
       ctx.logger.info('登录成功');
-      ctx.body = {
-        code: '200',
-        data: '',
-        msg: '登录成功',
-      };
+      ctx.helper.success();
     } else {
       ctx.logger.info('登录失败');
-      ctx.body = {
-        code: '000',
-        data: '',
-        msg: '登录失败',
-      };
+      ctx.helper.error('登录失败');
     }
+    ctx.logger.info('登录成功');
   }
 
   /**
@@ -48,8 +51,8 @@ class LoginController extends Controller {
    * @memberof LoginController
    */
   async logout() {
-    this.ctx.session.user = null;
-    this.ctx.redirect('/login');
+    this.ctx.session.admin = null;
+    this.ctx.redirect('/admin/login');
   }
 }
 

@@ -114,10 +114,8 @@ module.exports = {
     ctx.status = 200;
     ctx.body = {
       code,
-      msg: ctx.helper.errorCode[code],
-      data: {
-        error: msg,
-      },
+      msg: msg || ctx.helper.errorCode[code],
+      data: '',
     };
   },
   /**
