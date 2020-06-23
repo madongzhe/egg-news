@@ -16,8 +16,8 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_15862423414553_0336';
   // 短信接口配置
   config.sms = {
-    accessKeyId: 'LTAI4GKBmoCmoiZRwF6ngtTc',
-    accessSecret: 'EzWxIF3YhwrtimqBGuPnzUPEh3JI14',
+    accessKeyId: '',
+    accessSecret: '',
   };
   // 添加 view 配置
   config.view = {
