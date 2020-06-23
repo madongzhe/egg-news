@@ -1,0 +1,99 @@
+<!-- 普通类型选择 -->
+
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}} - 极客号注册{% endblock %}
+{% block head %}
+    <style>
+        body{
+            background-color:#f8f8f8;
+        }
+        .arrow{
+            border: solid transparent;
+            content: "";
+            height: 8px;
+            width: 8px;
+            position: absolute;
+            left: 76px;
+            top: 85px;
+            display: block;
+            background-color: #ff5e5e;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            -webkit-transform-origin: 50% 50% 0;
+            -moz-transform-origin: 50% 50% 0;
+            -ms-transform-origin: 50% 50% 0;
+            transform-origin: 50% 50% 0;
+        }
+        .type-box{
+            display: inline-block; width: 160px;padding: 0 10px;margin:0 10px;position: relative;
+        }
+        .type-icon{
+            width: 89px;height: 89px;background-color: #ff5e5e;border-radius: 5px;margin: 0 auto;
+        }
+        .type-name{
+            color: #222;font-size: 20px;line-height: 28px;margin-top: 32px;
+        }
+        .type-desc{
+            height: 80px;margin-top: 10px;
+        }
+        .fa{
+            color: #fff; font-size: 35px; line-height: 89px;
+        }
+    </style>
+{% endblock %}
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+
+        <div class="pull-right">
+          {% include 'common/search.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="index-container clearfix">
+    <div style="background-color: #fff;height: calc(100vh - 150px);min-height: 300px; box-shadow: 0 1px 4px 0 #ddd;">
+        <div style="display: flex; text-align: center; justify-content: center;height: 100%;">
+            <div style="margin: auto;display: flex;">
+                <div class="type-box">
+                    <div class="type-icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="arrow"></div>
+                    <p class="type-name">个人</p>
+                    <div class="type-desc">适合垂直领域专家、达人、爱好者及其他自然人注册和申请</div>
+                    <button class="btn btn-danger" onclick="window.location.href='/auth/register/1'">选择</button>
+                </div>
+                <div class="type-box">
+                    <div class="type-icon">
+                    <i class="fa fa-university"></i>
+                    </div>
+                    <div class="arrow"></div>
+                    <p class="type-name">机构</p>
+                    <div class="type-desc">适合企业、媒体、国家机构、其他组织等类型的机构注册和申请</div>
+                    <button class="btn btn-danger" onclick="window.location.href='/auth/register/2'">选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+ 
+</script>
+{% endblock %}

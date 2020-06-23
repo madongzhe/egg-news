@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}} - 极客号注册{% endblock %}
+
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+        <div class="pull-left chinese-tag">
+            <a href="/" target="_blank">首页</a>
+            /
+            <span class="text">搜索站内资讯</span>
+        </div>
+        <div class="pull-right">
+            <div class="search-wrapper">
+                <div class="input-group input-group-lg">
+                  <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
+                  <span class="input-group-btn">
+                    <button class="btn btn-danger" style="width: 80px;" type="button">搜索</button>
+                  </span>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+  <div class="index-container clearfix">
+      {% for item in rows %}
+      <div class="no-mode">
+        <div class="title-box">
+          <a href="/p/{{item.id}}" target="_blank" class="link">{{item.title.replace(key,'<span style="color:#f93333">'+key+'</span>')|safe}}</a>
+        </div> 
+        <div class="bui-box footer-bar">
+          <div class="bui-left footer-bar-left">
+            <!-- <a href="#" target="_blank" class="footer-bar-action source">人民网</a>  -->
+            <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+  </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

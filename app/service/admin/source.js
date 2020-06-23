@@ -1,7 +1,7 @@
 'use strict';
 
-
 const Service = require('egg').Service;
+const { transaction } = require('sequelize');
 
 class SourceService extends Service {
 
@@ -48,17 +48,31 @@ class SourceService extends Service {
    * 添加来源媒体
    *
    * @param {string} name 媒体名称
+   * @param {string} userId 用户id
    * @return {*} 结果
    * @memberof SourceService
    */
-  async add(name) {
-    const res = await this.app.model.Source.create({
-      sourceName: name,
-    });
-    if (!res) {
-      this.ctx.throw(404, 'site not found');
+  async add(name, userId) {
+    let transaction;
+    try {
+      transaction = await this.ctx.model.transaction();
+      const source = await this.app.model.Source.create({
+        sourceName: name,
+        userId,
+      }, { transaction });
+      await this.ctx.model.Users.update({
+        sourceId: source.id,
+      }, {
+        where: {
+          id: userId,
+        },
+      }, { transaction });
+      await transaction.commit();
+      return true;
+    } catch (e) {
+      await transaction.rollback();
+      return false;
     }
-    return res;
   }
 
   /**
@@ -66,12 +80,14 @@ class SourceService extends Service {
    *
    * @param {int} id 表id
    * @param {string} name 媒体名称
+   * @param {string} userId 用户ID
    * @return {*} 结果
    * @memberof SourceService
    */
-  async edit(id, name) {
+  async edit(id, name, userId) {
     const res = await this.app.model.Source.update({
       sourceName: name,
+      userId,
     }, {
       where: {
         id,

@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}
-{{article.title}}-{{site.name}}
-{% endblock %}
+{% block title %}{{article.title}}-{{site.name}}{% endblock %}
 
 {% block header %}
 <div class="middlebar">
@@ -20,14 +18,7 @@
             <span class="text">正文</span>
         </div>
         <div class="pull-right">
-            <div class="search-wrapper">
-                <div class="input-group input-group-lg">
-                  <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
-                  <span class="input-group-btn">
-                    <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
-                  </span>
-                </div>
-              </div>
+            {% include 'common/search.html' %}
         </div>
     </div>
 </div>

@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}}{% endblock %}
+
+{% block content %}
+    <div class="index-container clearfix">
+        <div class="pull-left index-channel">
+            {% include "users/leftmenu.html" %}
+        </div>
+        <div class="pull-left index-content" style="width: 800px;" id="app">
+            <div>
+                <h2>创建文章</h2>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="" class="">文章标题：</label>
+                    <input type="text" class="form-control" name="title">
+                </div>
+                <div class="form-group">
+                  <label for="">文章分类：</label>
+                  <select name="category" id="" style="width: 200px;" class="form-control" data-validate="required:分类不能空">
+                    <option value="">请选择</option>
+                    {% for item in category %}
+                      <option value="{{item.id}}" >{{item.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label for="" class="">文章内容：</label>
+                    <div id="editor"></div>
+                    <textarea name="content" id="text1" style="display: none;"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger">提交</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="pull-right index-right-bar">
+          
+        </div> -->
+    </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/public/admin/js/wangEditor.js" ></script>
+<script type="text/javascript">
+  var E = window.wangEditor
+  var editor = new E('#editor')
+  editor.customConfig.uploadImgServer = '/user/upload?_csrf=' + $.cookie('csrfToken')  // 上传图片到服务器
+  var $text1 = $('#text1')
+  editor.customConfig.onchange = function (html) {
+      // 监控变化，同步更新到 textarea
+      $text1.val(html)
+  }
+  editor.create();
+
+  function save(){
+    if($('form').submits()){
+      $.ajax({
+        url: '/admin/article/post_add',
+        type: 'post',
+        cache: false,
+        data:$('form').serialize(),
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+        },
+        success: function (res) {
+          if(res.code === '200'){
+            $.modals('success', '保存成功');
+            $('#msg').on('hidden.bs.modal', function (e) {
+              window.location.href = '/admin/article/list';
+            });
+          }
+        },
+      })
+    }
+  }
+</script>
+{% endblock %}

@@ -21,7 +21,6 @@ class LoginController extends Controller {
    */
   async post_login() {
     const { ctx } = this;
-    console.log('登录');
     const createRule = {
       username: 'string',
       password: 'string',
@@ -41,8 +40,8 @@ class LoginController extends Controller {
     } else {
       ctx.logger.info('登录失败');
       ctx.helper.error('登录失败');
+      return;
     }
-    ctx.logger.info('登录成功');
   }
 
   /**

@@ -9,11 +9,23 @@
     <span>
       <a href="/feedback" class="tb-link">反馈</a>
     </span>
+    {% if userinfo %}
+    <span>
+      <a href="/user/{{userinfo.userId}}" class="tb-link">{{userinfo.phone}}</a>
+    </span>
+    <span>
+      <a href="/user/article_add" class="tb-link">发文</a>
+    </span>
+    <span>
+      <a href="JavaScript:logout()" class="tb-link">退出</a>
+    </span>
+    {% else %}
     <span>
       <a href="/login" class="tb-link">登录</a>
     </span>
     <span>
       <a href="/register" class="tb-link">注册极客号</a>
     </span>
+    {% endif %}
   </div>
 </div>

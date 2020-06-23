@@ -89,7 +89,7 @@
 <script type="text/javascript">
   var E = window.wangEditor
   var editor = new E('#editor')
-  editor.customConfig.uploadImgServer = '/upload?_csrf=' + $.cookie('csrfToken')  // 上传图片到服务器
+  editor.customConfig.uploadImgServer = '/admin/upload?_csrf=' + $.cookie('csrfToken')  // 上传图片到服务器
   var $text1 = $('#text1')
   editor.customConfig.onchange = function (html) {
       // 监控变化，同步更新到 textarea

@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}
-    {{site.name}}
-{% endblock %}
+{% block title %}{{site.name}}{% endblock %}
 
 {% block content %}
     <div class="index-container clearfix">
@@ -11,6 +9,34 @@
         </div>
         <div class="pull-left index-content" id="app">
             <ul>
+              {% for item in rows %}
+                {% if item.images %}
+                  <li>
+                    <div class="single-mode">
+                      <div class="pull-left single-mode-lbox">
+                        <a href="/p/{{item.id}}.html" target="_blank" class="img-wrap"><img class="lazy-load-img" src="{{item.images|image}}" style="width: 160px;" alt=""></a>
+                      </div>
+                      <div class="single-mode-rbox clearfix"><div class="single-mode-rbox-inner"><div class="title-box"><a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a></div><div class="bui-box footer-bar"><a href="#" class="footer-bar-action source">{{item.source.sourceName}}</a><span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span></div></div>
+                      </div>
+                    </div>
+                  </li>
+                {% else %}
+                  <li>
+                    <div class="no-mode">
+                      <div class="title-box">
+                        <a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a>
+                      </div>
+                      <div class="bui-box footer-bar">
+                        <div class="bui-left footer-bar-left">
+                          <!-- <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" v-text="item.category.name"></a> -->
+                          <a href="#" target="_blank" class="footer-bar-action source">{{item.source.sourceName}}</a>
+                          <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
               <template v-for="item in rows">
                 <li v-if="item.images">
                     <div class="single-mode">
@@ -49,16 +75,10 @@
                 </li>
               </template>
             </ul>
+            <div class="text-center" style="line-height: 50px;" v-if="loading">数据加载中。。。</div>
         </div>
         <div class="pull-right index-right-bar">
-          <div class="search-wrapper">
-            <div class="input-group input-group-lg">
-              <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
-              <span class="input-group-btn">
-                <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
-              </span>
-            </div>
-          </div>
+          {% include 'common/search.html' %}
           <!-- 24小时热闻 -->
           {% include 'hotnews.html' %}
           <!-- 友情链接 -->
@@ -80,32 +100,47 @@
 
 {% block script %}
   <script>
-    var data = {{res|safe}};
     var vm = new Vue({
       el: '#app',
-      data: data,
+      data: {count:1,rows:[],loading:false},
       methods: {
         resdata: function () {
-          $.ajax({
-            url:'',
-            type: 'post',
-            cache: false,
-            dataType: 'json',
-            data:$('form').serialize(),
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
-            },
-            success: function (res) {
-              if(res.code === '200'){
-                vm.list.push(res.data);
+          if(!vm.loading) {
+            vm.loading = true;
+            $.ajax({
+              url:'/articleList/' + (vm.count + 1),
+              type: 'post',
+              cache: false,
+              dataType: 'json',
+              data:{},
+              beforeSend: function (XMLHttpRequest) {
+                  XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+              },
+              success: function (res) {
+                vm.loading = false;
+                if(res.code === '200'){
+                  vm.count++;
+                  vm.rows = vm.rows.concat(res.data.rows);
+                }
+              },
+              error: function(err){
+                vm.loading = false;
+                $.alerts('error','网络请求失败');
               }
-            },
-            error: function(err){
-                $.alerts('danger','网络连接失败');
-            }
-          })
+            })
+          }
         }
       },
     })
+
+    $(window).scroll(function(){
+        var $this =$(this),
+        viewH =$(this).height(),//可见高度
+        contentH =$('#app').height(),//内容高度
+        scrollTop =$(this).scrollTop();//滚动高度
+        if(contentH - viewH - scrollTop <= 100) { //当滚动到距离底部100px时,
+          vm.resdata()
+        }
+     });
   </script>
 {% endblock %}

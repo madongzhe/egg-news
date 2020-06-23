@@ -1,6 +1,8 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const Core = require('@alicloud/pop-core');
+
 module.exports = {
   errorCode: {
     200: '请求成功。客户端向服务器请求数据，服务器返回相关数据',
@@ -107,9 +109,10 @@ module.exports = {
   /**
    * 请求失败
    *
-   * @param {*} { code = 400, msg = null }
+   * @param {number} [code=400]
+   * @param {*} [msg=null]
    */
-  async fail({ code = 400, msg = null }) {
+  async fail(code = 400, msg = null) {
     const { ctx } = this;
     ctx.status = 200;
     ctx.body = {
@@ -143,9 +146,47 @@ module.exports = {
     }
     return { categoryList: result };
   },
+
+  /**
+   * 延迟器
+   *
+   * @param {*} ms 延迟时间
+   */
   async delay(ms) {
     setTimeout(function() {
       return 1;
     }, ms);
+  },
+
+  /**
+   * 发送短信验证码
+   *
+   * @param {*} phone 手机号
+   * @param {*} code 验证码
+   */
+  async sms(phone, code) {
+    const client = new Core({
+      accessKeyId: this.app.config.sms.accessKeyId,
+      accessKeySecret: this.app.config.sms.accessSecret,
+      endpoint: 'https://dysmsapi.aliyuncs.com',
+      apiVersion: '2017-05-25',
+    });
+    const params = {
+      RegionId: 'cn-hangzhou',
+      PhoneNumbers: phone,
+      SignName: '极客新闻',
+      TemplateCode: 'SMS_192541948',
+      TemplateParam: { code },
+    };
+    const requestOption = {
+      method: 'POST',
+    };
+    client.request('SendSms', params, requestOption).then(result => {
+      console.log(JSON.stringify(result));
+      return 1;
+    }, ex => {
+      console.log(ex);
+      return 0;
+    });
   },
 };

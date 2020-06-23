@@ -11,7 +11,7 @@ class FeedbackController extends Controller {
    */
   async index() {
     const { ctx } = this;
-    ctx.render('feedback.html');
+    await ctx.render('feedback.html');
   }
 
   /**

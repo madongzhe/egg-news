@@ -3,9 +3,10 @@
 const url = require('url');
 
 // 判断后台用户是否登录
-module.exports = () => {
+module.exports = (options, app) => {
   return async function init(ctx, next) {
     const admininfo = ctx.session.admin;
+    app.locals.admininfo = admininfo;
     const pathname = url.parse(ctx.request.url).pathname;
     if (admininfo) {
       await next();

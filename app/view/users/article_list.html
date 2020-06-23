@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}}{% endblock %}
+
+{% block content %}
+    <div class="index-container clearfix">
+        <div class="pull-left index-channel">
+            {% include "users/leftmenu.html" %}
+        </div>
+        <div class="pull-left index-content" id="app">
+            <div>
+                <h2>文章列表</h2>
+            </div>
+            <div class="form-inline">
+                <ul>
+                  {% for item in res.row %}
+                  <li>
+                    <span>asds</span>
+                    <span>2020-1-1</span>
+                    <span>修改 删除</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="pull-right index-right-bar">
+          
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {{res|safe}},
+      methods: {
+        resdata: function(page) {
+          $.ajaxpost(
+            '',
+            {page:page},
+            function(res) {
+              if(res.code === '200') {
+                vm.rows = res.data.rows;
+              }
+            }
+          )
+        }
+      },
+    })
+  </script>
+{% endblock %}

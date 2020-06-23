@@ -13,7 +13,7 @@ class HomeController extends Controller {
     const { ctx } = this;
     const res = await ctx.service.article.articleList(1, 30);
     const link = await ctx.service.admin.link.list();
-    await ctx.render('index.html', { res: JSON.stringify(res), link });
+    await ctx.render('index.html', { rows: res.rows, link });
   }
 }
 

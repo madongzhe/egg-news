@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('../../core/base_controller');
+const crypto = require('crypto');
 
 class LoginController extends Controller {
 
@@ -21,7 +22,27 @@ class LoginController extends Controller {
    */
   async post_login() {
     const { ctx } = this;
-    ctx.helper.success();
+    const createRule = {
+      phone: 'string',
+      password: 'string',
+    };
+    try {
+      ctx.validate(createRule);
+    } catch (error) {
+      ctx.logger.info('登录参数错误');
+      ctx.helper.fail(422);
+    }
+    const { phone, password } = ctx.request.body;
+    const pwd = crypto.createHash('md5').update(password).digest('hex');
+    const res = await ctx.service.users.login.login(phone, pwd);
+    if (res) {
+      ctx.logger.info('登录成功');
+      ctx.helper.success();
+    } else {
+      ctx.logger.info('登录失败');
+      ctx.helper.error('登录失败');
+      return;
+    }
   }
 
   /**
@@ -32,7 +53,7 @@ class LoginController extends Controller {
   async logout() {
     const { ctx } = this;
     ctx.session.users = null;
-    ctx.redirect('/login');
+    ctx.helper.success();
   }
 }
 

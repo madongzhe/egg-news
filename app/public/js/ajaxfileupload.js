@@ -1,7 +1,6 @@
 
 jQuery.extend({
 
-
     createUploadIframe: function(id, uri)
     {
         //create frame

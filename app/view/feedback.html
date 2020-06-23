@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}
-用户反馈-{{site.name}}
-{% endblock %}
+{% block title %}用户反馈-{{site.name}}{% endblock %}
 
 {% block header %}
 <div class="middlebar">
@@ -19,13 +17,13 @@
         </div>
         <div class="pull-right">
             <div class="search-wrapper">
-                <div class="input-group input-group-lg">
-                  <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
-                  <span class="input-group-btn">
-                    <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
-                  </span>
-                </div>
+              <div class="input-group input-group-lg">
+                <input type="text" style="font-size: 14px;" class="form-control" placeholder="搜索站内资讯">
+                <span class="input-group-btn">
+                  <button class="btn btn-danger" style="width: 80px;" type="button">搜索</button>
+                </span>
               </div>
+            </div>
         </div>
     </div>
 </div>
@@ -36,8 +34,12 @@
     <div class="pull-left index-left"></div>
     <div class="pull-left index-middle">
         <form action="" method="post">
-          <div>
-            <label for="">用户反馈</label>
+          <div class="form-group">
+            <label for="">反馈:</label>
+            <textarea name="feedback" class="form-control" style="height: 100px;" rows="6"></textarea>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-danger">提交</button>
           </div>
         </form>
     </div>

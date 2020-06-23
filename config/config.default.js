@@ -13,7 +13,12 @@ module.exports = appInfo => {
   const config = exports = {};
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_15862423414553_5116';
+  config.keys = appInfo.name + '_15862423414553_0336';
+  // 短信接口配置
+  config.sms = {
+    accessKeyId: 'LTAI4GKBmoCmoiZRwF6ngtTc',
+    accessSecret: 'EzWxIF3YhwrtimqBGuPnzUPEh3JI14',
+  };
   // 添加 view 配置
   config.view = {
     defaultViewEngine: 'nunjucks',
@@ -42,7 +47,7 @@ module.exports = appInfo => {
   };
 
   // add your middleware config here
-  config.middleware = [ 'adminauth', 'menus', 'hotNews', 'site', 'gzip' ];
+  config.middleware = [ 'adminauth', 'menus', 'hotNews', 'site', 'gzip', 'usersauth' ];
   config.adminauth = {
     match: '/admin',
   };

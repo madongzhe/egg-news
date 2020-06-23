@@ -49,10 +49,17 @@ class SourceController extends Controller {
     const { ctx } = this;
     const createRule = {
       source_name: 'string',
+      userId: 'int',
     };
-    ctx.validate(createRule);
-    const source_name = ctx.request.body.source_name;
-    const res = await ctx.service.admin.source.add(source_name);
+    try {
+      ctx.validate(createRule);
+    } catch (error) {
+      ctx.logger.warn(error);
+      ctx.helper.error(422);
+      return;
+    }
+    const { source_name, userId } = ctx.request.body;
+    const res = await ctx.service.admin.source.add(source_name, userId);
     if (res) {
       ctx.helper.success();
     } else {
@@ -70,10 +77,17 @@ class SourceController extends Controller {
     const createRule = {
       id: 'id',
       source_name: 'string',
+      userId: 'int',
     };
-    ctx.validate(createRule);
-    const { id, source_name } = ctx.request.body;
-    const res = await ctx.service.admin.source.edit(id, source_name);
+    try {
+      ctx.validate(createRule);
+    } catch (error) {
+      ctx.logger.warn(error);
+      ctx.helper.error(422);
+      return;
+    }
+    const { id, source_name, userId } = ctx.request.body;
+    const res = await ctx.service.admin.source.edit(id, source_name, userId);
     if (res) {
       ctx.helper.success();
     } else {
