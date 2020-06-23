@@ -1,0 +1,219 @@
+<!-- 普通认证 -->
+
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}} - 普通认证{% endblock %}
+{% block head %}
+    <style>
+        body{
+            background-color:#f8f8f8;
+        }
+        .matrix-img-add {
+          height: 80px;
+          width: 80px;
+          border: 1px dashed #d8d8d8;
+          background-color: #fafafa;
+          border-radius: 4px;
+          cursor: pointer;
+          color: #999;
+          font-size: 20px;
+          text-align: center;
+          line-height: 80px;
+        }
+        .updata [type=file]{
+          display: none;
+        }
+        .imgfile{
+          display: none;
+          height: 80px;
+          width: 80px;
+          position: relative;
+        }
+        .imgfile img{
+          height: 80px;
+          width: 80px;
+        }
+        .matrix-img-hover{
+          width: 80px;
+          height: 80px;
+          position: absolute;
+          top: 0;
+          color: #fff;
+          font-size: 16px;
+          line-height: 80px;
+          text-align: center;
+        }
+        .ttcore-remove-blot{
+          display: none;
+          position: absolute;
+          top: -9px;
+          right: -8px;
+          width: 17px;
+          height: 17px;
+          cursor: pointer;
+          transform: scaleX(1);
+          border-radius: 50%;
+          background: #999;
+          transition: opacity 0.3s ease-in-out 0s;
+          color: #fff;
+        }
+        .ttcore-remove-blot::before{
+          content: "";
+          display: block;
+          width: 11px;
+          height: 1px;
+          position: absolute;
+          top: 8px;
+          left: 3px;
+          background: #fff;
+          transform: rotate(45deg);
+        }
+        .ttcore-remove-blot::after{
+          content: "";
+          display: block;
+          width: 11px;
+          height: 1px;
+          position: absolute;
+          top: 8px;
+          left: 3px;
+          background: #fff;
+          transform: rotate(135deg);
+        }
+        .matrix-img-hover:hover .ttcore-remove-blot{
+          display: block;
+        }
+    </style>
+{% endblock %}
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+
+        <div class="pull-right">
+          {% include 'common/search.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="index-container clearfix">
+    <div style="background-color: #fff;height: calc(100vh - 150px);min-height: 300px; box-shadow: 0 1px 4px 0 #ddd;">
+        <div style="padding: 20px;">
+          <form class="form-inline" id="register" action="" method="get">
+            <div class="form-group">
+              <label for="" class="col-2 control-label">媒体名称：</label>
+              <div class="col-8">
+                <input type="text" name="sourceName" class="form-control" data-validate="required:请输入媒体名称">
+              </div>
+              <div class="field text-red col-offset-2 col-10"></div>
+              <div class="col-offset-2">2-10个汉字，请勿使用含特殊符号或含有明显营销推广意图的媒体名。</div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-2 control-label">媒体介绍：</label>
+              <div class="col-8">
+                <input type="text" name="sourceIntroduce" class="form-control"  data-validate="required:请输入媒体介绍">
+              </div>
+              <div class="field text-red col-offset-2 col-10"></div>
+              <div class="col-offset-2">格式要求10-30个字，内容完整通顺，无特殊符号。</div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-2 control-label">媒体头像：</label>
+              <div class="col-8">
+                <div class="imgfile">
+                  <img src="" alt="">
+                  <div class="matrix-img-hover">
+                    <span class="ttcore-remove-blot avatar-delete" onclick="$('.imgfile').hide();$('.updata').show()"></span>
+                  </div>
+                </div>
+                <div class="updata">
+                  <div class="matrix-img-add" onclick="$('#files').click();">
+                    <i class="fa fa-plus"></i>
+                  </div>
+                  <input type="file" id="files" name="file" accept="image/jpeg,image/jpg,image/png,image/x-png,image/gif" onchange="upfile(this)" title="">
+                </div>
+              </div>
+              <div id="imgfield" class="field text-red col-offset-2 col-10"></div>
+              <div class="col-offset-2">要求清晰、健康、代表品牌形象，请勿使用二维码，最大2M，200x200像素</div>
+            </div>
+            <div class="form-group">
+              <div class="col-offset-2">
+                <button type="button" class="btn btn-default" onclick="">上一步</button>
+                <button type="button" class="btn btn-danger" onclick="save()">提交</button>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/public/js/ajaxfileupload.js"></script>
+<script src="/public/admin/js/bootstrap.min.js"></script>
+<script>
+  var upimg = '';
+  function upfile(e){
+    var file = e.files[0];
+    //首先判断是否是图片格式，
+		var isImg = file.type == 'image/jpg' || file.type  == 'image/jpeg' || file.type == 'image/png';
+		if(!isImg){
+			$('#file').text('请上传图片')
+			return false;
+		}
+		//判断图片的文件大小
+		var fileSizeLt2 = file.size/1024/1024 > 2 ;
+		if(fileSizeLt2){
+			$('#file').text('图片大于2MB');
+			return false;
+		}
+    // $('#file').text('选择图片了')
+    $.ajaxFileUpload({
+        fileElementId: 'files',    //需要上传的文件域的ID，即<input type="file">的ID。
+        url: '/upload?_csrf=' + $.cookie('csrfToken'), //后台方法的路径
+        type: 'post',   //当要提交自定义参数时，这个参数要设置成post
+        dataType: 'json',   //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+        secureuri: false,   //是否启用安全提交，默认为false。
+        async : true,   //是否是异步
+        success: function(res) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+            if (res.code === '200') {
+              $('.imgfile img').attr('src', res.data[0]);
+              upimg = res.data[0];
+              $('.imgfile').show();
+              $('.updata').hide();
+            };
+            $('#files').val('')
+        },
+        error: function(data, status, e) {  //提交失败自动执行的处理函数。
+            console.log(data, status, e);
+            $('#files').val('')
+        }
+    });
+  }
+
+  function save() {
+    if(upimg) {
+      $('#imgfield').text('');
+    } else {
+      $('#imgfield').text('请选择图片');
+    }
+    if($('#register').submits()){
+      $.ajaxpost(
+        '/auth/post_register/1',
+        {sourceName:$('[name="sourceName"]').val(), sourceIntroduce:$('[name="sourceIntroduce"]').val(),mediaLogo:upimg},
+        function(res){
+          if (res.code === '200') {
+            $.modals('success','提交成功', '/user')
+          } else {
+            $.alerts('error','提交失败')
+          }
+        }
+      )
+    }
+  }
+</script>
+{% endblock %}

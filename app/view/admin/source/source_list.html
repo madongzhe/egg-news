@@ -40,6 +40,7 @@
             <thead>
                 <tr>
                     <th>媒体名称</th>
+                    <th>用户ID</th>
                     <th style="width: 180px;">添加日期</th>
                     <th style="width: 160px;">操作</th>
                 </tr>
@@ -47,6 +48,7 @@
             <tbody>
                 <tr v-for="item in rows">
                     <td v-text="item.sourceName"></td>
+                    <td v-text="item.userId"></td>
                     <td v-text="formatDate(item.createdAt,'YYYY-MM-DD hh:mm')"></td>
                     <td>
                         <a :href="'/admin/source/edit/'+item.id" class="btn btn-xs btn-link">修改</a>

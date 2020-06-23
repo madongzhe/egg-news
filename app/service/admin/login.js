@@ -8,15 +8,15 @@ class LoginService extends Service {
    *
    * @param {string} name 用户名
    * @param {string} pwd 密码
-   * @return
+   * @return {*} 结果
    * @memberof LoginService
    */
   async login(name, pwd) {
-    const user = await this.ctx.model.Admin.findOne({
+    const admin = await this.ctx.model.Admin.findOne({
       username: name,
     });
-    if (user && user.password === pwd) {
-      this.ctx.session.user = user.dataValues;
+    if (admin && admin.password === pwd) {
+      this.ctx.session.admin = admin.dataValues;
       return true;
     }
     return false;

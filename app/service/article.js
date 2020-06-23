@@ -81,6 +81,37 @@ class ArticleService extends Service {
   }
 
   /**
+   * 查询单个媒体文章
+   *
+   * @param {*} sourceId 媒体id
+   * @param {number} [page=1] 第几页
+   * @param {number} [size=10] 每页条数
+   * @param {number} [status=1] 状态
+   * @return {JSON} /
+   * @memberof ArticleService
+   */
+  async articleListUser(sourceId, page = 1, size = 10, status = 1) {
+    this.ctx.model.Category.hasOne(this.ctx.model.Article);
+    this.ctx.model.Article.belongsTo(this.ctx.model.Category, { foreignKey: 'categoryId', targetKey: 'id' });
+    this.ctx.model.Source.hasOne(this.ctx.model.Article);
+    this.ctx.model.Article.belongsTo(this.ctx.model.Source, { foreignKey: 'sourceId', targetKey: 'id' });
+    const List = await this.ctx.model.Article.findAndCountAll({
+      attributes: [ 'id', 'title', 'images', 'createdAt', 'category.name' ],
+      include: [{ model: this.ctx.model.Category }, { model: this.ctx.model.Source }],
+      where: {
+        sourceId,
+        status,
+      },
+      order: [[ 'createdAt', 'DESC' ]],
+      offset: size * (page - 1),
+      limit: size,
+    });
+    if (!List) {
+      this.ctx.throw(404, 'site not found');
+    }
+    return List;
+  }
+  /**
    * 分类文章列表
    *
    * @param {*} englishName 英文简写
@@ -158,6 +189,28 @@ class ArticleService extends Service {
     if (!res) {
       this.ctx.throw(404, 'site not found');
     }
+    return res;
+  }
+
+  /**
+   * 关键字搜索
+   *
+   * @param {*} key 关键字
+   * @memberof ArticleService
+   */
+  async search(key) {
+    const res = this.ctx.model.Article.findAll({
+      attributes: [ 'id', 'title', 'createdAt' ],
+      where: {
+        title: {
+          // 模糊查询
+          [Op.like]: '%' + key + '%',
+        },
+      },
+      order: [[ 'createdAt', 'DESC' ]],
+      offset: 0,
+      limit: 30,
+    });
     return res;
   }
 }

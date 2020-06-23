@@ -18,9 +18,9 @@ class UpdateCache extends Subscription {
     const ctx = this.ctx;
     const res = await ctx.service.admin.collect.collect();
     if (res) {
-      ctx.logger.info('采集成功');
+      ctx.logger.info('采集成功，采集结束');
     } else {
-      ctx.logger.info('采集失败');
+      ctx.logger.info('采集失败，采集结束');
     }
     // ctx.logger.info('update cache errorNum  = ' + ctx.app.cache.errorNum);
     // // errorNum 当错误数量 > 50时 停止抓取数据

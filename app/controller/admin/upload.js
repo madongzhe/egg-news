@@ -29,6 +29,10 @@ class UploadController extends Controller {
       };
       return;
     }
+    if (filesize > 2 * 1024 * 1024) {
+      ctx.helper.fail(400, '上传文件超过2M');
+      return;
+    }
     const filename = Math.random().toString(36).substr(2) + new Date().getTime() + path.extname(stream.filename).toLocaleLowerCase();
     // 图片存放在静态资源public/img文件夹下
     const file = new Date().getFullYear() + '' + (new Date().getMonth() + 1 > 9 ? new Date().getMonth() + 1 : '0' + (new Date().getMonth() + 1));
@@ -43,11 +47,8 @@ class UploadController extends Controller {
       // 如果出现错误，关闭管道
       await sendToWormhole(stream);
       // throw err;
-      this.ctx.body = {
-        code: 400,
-        data: '',
-        msg: err,
-      };
+      ctx.logger.warn(err);
+      ctx.helper.fail(400);
       return;
     }
     const imgurl = this.config.http_img + '/public/' + file + '/' + filename;

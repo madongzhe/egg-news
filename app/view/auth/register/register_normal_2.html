@@ -1,0 +1,45 @@
+<!-- 机构认证 -->
+
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}} - 机构认证{% endblock %}
+{% block head %}
+    <style>
+        body{
+            background-color:#f8f8f8;
+        }
+    </style>
+{% endblock %}
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+
+        <div class="pull-right">
+          {% include 'common/search.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="index-container clearfix">
+    <div style="background-color: #fff;height: calc(100vh - 150px);min-height: 300px; box-shadow: 0 1px 4px 0 #ddd;">
+        <div style="display: flex; text-align: center; justify-content: center;height: 100%;">
+            <div style="height: 30px;margin: auto;font-size: 20px;">
+              敬请期待
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+ 
+</script>
+{% endblock %}

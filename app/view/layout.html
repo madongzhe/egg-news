@@ -7,9 +7,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="shortcut icon" href="/punlic/favicon.ico"> 
   <title>{% block title %}{% endblock %}</title>
-  <!-- <link href="/public/css/bootstrap.min.css" rel="stylesheet"> -->
+  <meta name="keywords" content="{{site.name}}，头条">
+  <meta name="description" content="《{{site.name}}》(www.geekscn.cn)是一款基于数据挖掘的推荐引擎产品，它为用户推荐有价值的、个性化的信息，提供连接人与信息的新型服务。">
   <link href="/public/css/font-awesome.min.css" rel="stylesheet">
-  <link href="/public/css/index.css" rel="stylesheet">
+  <link href="/public/css/index.min.css" rel="stylesheet">
   {% block head %}{% endblock %}
 </head>
 <body>
@@ -23,18 +24,15 @@
   {% block footer %}
     <div class="footer">
       ©2020 jikedili
+      <!-- 统计代码 -->
+      {{site.statistics|safe}}
     </div>
   {% endblock %}
   <!-- 全局js -->
   <script src="/public/js/jquery.min.js"></script>
   <script src="/public/js/jquery.cookie.min.js"></script>
-  <!-- <script src="/public/js/bootstrap.min.js"></script> -->
   <script src="/public/js/vue.min.js"></script>
-  <script src="/public/js/vue.filter.js"></script>
   <script src="/public/js/common.js"></script>
   {% block script %}{% endblock %}
-  <script>
-    {{site.statistics}}
-  </script>
 </body>
 </html>

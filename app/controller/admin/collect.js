@@ -61,13 +61,14 @@ class CollectController extends Controller {
       source_id: 'string',
       url: 'string',
       listrule: 'string',
+      titlerule: 'string',
       articlerule: 'string',
       // state: { type: 'int' },
     };
     // 校验参数
     ctx.validate(createRule);
-    const { name, url, category, source_id, listrule, articlerule } = ctx.request.body;
-    const res = await ctx.service.admin.collect.add(name, url, category, source_id, listrule, articlerule);
+    const { name, url, category, source_id, listrule, titlerule, articlerule } = ctx.request.body;
+    const res = await ctx.service.admin.collect.add(name, url, category, source_id, listrule, titlerule, articlerule);
     ctx.helper.success(res);
   }
 

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}{{site.name}}{% endblock %}
+
+{% block content %}
+    <div class="index-container clearfix">
+        <div class="pull-left index-channel">
+            {% include "users/leftmenu.html" %}
+        </div>
+        <div class="pull-left index-content" id="app">
+            <div>
+                <h2>用户信息</h2>
+            </div>
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="" class="col-2 control-label">手机号：</label>
+                    <div>
+                        <span class="form-control-static">15000000000</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-2 control-label">极客号：</label>
+                    <div>
+                        <span class="form-control-static">新闻媒体</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-2 control-label">logo：</label>
+                    <div>
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pull-right index-right-bar">
+          
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+
+  </script>
+{% endblock %}

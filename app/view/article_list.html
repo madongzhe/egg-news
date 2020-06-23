@@ -1,8 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}
-{{res.rows[0].category.name}} - {{site.name}}
-{% endblock %}
+{% block title %}{{res.rows[0].category.name}} - {{site.name}}{% endblock %}
 
 {% block content %}
 <div class="index-container clearfix">
@@ -16,9 +14,9 @@
               <li>
                 <div class="single-mode">
                   <div class="pull-left single-mode-lbox">
-                    <a href="/p/{{item.id}}" target="_blank" class="img-wrap"><img class="lazy-load-img" src="{{item.images|image}}" style="width: 160px;" alt=""></a>
+                    <a href="/p/{{item.id}}.html" target="_blank" class="img-wrap"><img class="lazy-load-img" src="{{item.images|image}}" style="width: 160px;" alt=""></a>
                   </div>
-                  <div class="single-mode-rbox clearfix"><div class="single-mode-rbox-inner"><div class="title-box"><a href="/p/{{item.id}}" target="_blank" class="link">{{item.title}}</a></div><div class="bui-box footer-bar"><a href="#" class="footer-bar-action source">{{item.source.sourceName}}</a><span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span></div></div>
+                  <div class="single-mode-rbox clearfix"><div class="single-mode-rbox-inner"><div class="title-box"><a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a></div><div class="bui-box footer-bar"><a href="#" class="footer-bar-action source">{{item.source.sourceName}}</a><span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span></div></div>
                   </div>
                 </div>
               </li>
@@ -26,7 +24,7 @@
               <li>
                 <div class="no-mode">
                   <div class="title-box">
-                    <a href="/p/{{item.id}}" target="_blank" class="link">{{item.title}}</a>
+                    <a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a>
                   </div>
                   <div class="bui-box footer-bar">
                     <div class="bui-left footer-bar-left">

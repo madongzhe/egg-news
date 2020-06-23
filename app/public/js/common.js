@@ -309,7 +309,7 @@ function localStorageSupport() {
    * @param {any} caret 内容
    */
 
-  function modal(type, caret) {
+  function modal(type, caret, url) {
     var title = '';
     var modalbody = '';
     if (type === 'error') {
@@ -342,7 +342,12 @@ function localStorageSupport() {
       $('body').append(center);
       $('#msg').modal('show');
     }
-
+    // 跳转
+    if (url) {
+      $('#msg').on('hidden.bs.modal', function (e) {
+        window.location.href = url;
+      });
+    }
   }
   function loading(type, caret) {
     var title = '提示';
@@ -378,7 +383,7 @@ function localStorageSupport() {
 })(jQuery);
 
 // 分页
-(function () {
+(function ($) {
   /**
    * <ul class="page" maxshowpageitem="5" pagelistcount="10"  id="page"></ul>
    * //$("#page").initPage(71,1,fun);
@@ -506,4 +511,47 @@ function formatDate(date, fmt) {
     };
   };
   return fmt;
+}
+
+
+(function ($) {
+  /**
+   * ajax封装
+   *
+   * @param {string} url 请求地址
+   * @param {json} data 请求数据
+   * @param {function} callback 请求成功执行
+   */
+  function ajaxpost(url, data, callback) {
+    $.ajax({
+      url:url,
+      type: 'post',
+      cache: false,
+      data:data,
+      success: function(res){
+        callback(res);
+      },
+      beforeSend: function (XMLHttpRequest) {
+          XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+      },
+      error: function(err){
+        $.alerts('error','请求失败, 请检查网络');
+      }
+    })
+  }
+  $.extend({
+    ajaxpost:ajaxpost
+  });
+})(jQuery);
+// 退出登录
+function logout() {
+  $.ajaxpost(
+    '/user/logout',
+    {},
+    function(res) {
+      if(res.code === '200') {
+        window.location.reload();
+      }
+    }
+  )
 }

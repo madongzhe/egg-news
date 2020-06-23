@@ -1,33 +1,17 @@
-# news
+# egg-news
 
-新闻网
+## 极客新闻网
 
-## QuickStart
+前端
 
-<!-- add docs here for user -->
+![前端页面](app/public/images/qianduan.jpg)
 
-see [egg docs][egg] for more detail.
+后台页面
 
-### Development
+![前端页面](app/public/images/houduan.jpg)
 
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
-```
+1、后台有数据采集功能，定时爬取新闻媒体数据。
 
-### Deploy
+## 版本更新：
 
-```bash
-$ npm start
-$ npm stop
-```
-
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
+增加极客号注册，注册极客号可以自由发布文章。

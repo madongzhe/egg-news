@@ -32,6 +32,13 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="" class="col-xs-2 control-label">用户ID：</label>
+          <div class="col-xs-8">
+            <input type="text" name="userId" value="{{res.userId}" class="form-control" data-validate="required:用户ID不能空">
+            <div class="field text-danger"></div>
+          </div>
+        </div>
+        <div class="form-group">
           <div class="col-xs-8 col-xs-offset-2">
             <button type="button" class="btn btn-default" onclick="JavaScript:window.history.back()">返回</button>
             <button type="button" onclick="save()" class="btn btn-primary">提交</button>

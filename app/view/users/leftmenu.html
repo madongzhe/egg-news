@@ -1,0 +1,22 @@
+<div class="channel">
+  <a class="wchannel" href="/">
+    <img src="/public/logo.png" width="100%" alt="" class="logo">
+  </a>
+  <ul>
+    <li>
+      <a href="/user" class="channel-item {% if url === '/user' %}active{% endif %}">
+        <span>个人信息</span>
+      </a>
+    </li>
+    <li>
+      <a href="/user/article_list" class="channel-item {% if url === '/user/article_list' %}active{% endif %}">
+        <span>文章列表</span>
+      </a>
+    </li>
+    <li>
+      <a href="/user/article_add" class="channel-item {% if url === '/user/article_add' %}active{% endif %}">
+        <span>发表文章</span>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -20,7 +20,7 @@
         <canvas id="demo-canvas" width="1590" height="711"></canvas>
         <div class="login-form">
             <div class="login-content">
-                <h1 class="title_name">账户登录</h1>
+                <h1 class="title_name">后台管理登录</h1>
                 <form method="post" action="" role="form" id="form_login" class="login_padding">
                     <div class="form-group clearfix">
                         <div class="input-group">
@@ -84,7 +84,7 @@
             }
             $('.prompt').hide();
             $.ajax({
-                url:'/post_login',
+                url:'/admin/post_login',
                 type:'post',
                 cache:false,
                 data:{

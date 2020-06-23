@@ -178,7 +178,7 @@ class CollectService extends Service {
       $(reg).each((i, item) => {
         const listurl = $(item).attr('href');
         if (listurl) {
-          list.push(listurl.indexOf(':') !== -1 ? listurl : resurl + listurl);
+          list.push(listurl.indexOf('//') !== -1 ? listurl : listurl.substr(0, 1) === '/' ? resurl + listurl : resurl + '/' + listurl);
         }
       });
       return list;
@@ -196,11 +196,19 @@ class CollectService extends Service {
    * @memberof CollectService
    */
   async collectArticle(url, titlereg, reg = '') {
+    const { ctx } = this;
     const headers = {
       'Content-Type': 'application/json; encoding=utf-8',
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
     };
-    const result = await this.ctx.curl(url, { dataType: 'text', headers });
+    ctx.logger.info('采集文章：' + url);
+    let result;
+    try {
+      result = await this.ctx.curl(url, { dataType: 'text', headers });
+    } catch (error) {
+      result = '';
+      ctx.logger.info('采集文章失败：' + error);
+    }
     const arrurl = url.split('/');
     arrurl.length = 3;
     const resurl = arrurl.join('/');
@@ -224,15 +232,18 @@ class CollectService extends Service {
    * @memberof CollectService
    */
   async downimg(str, resurl) {
+    const { ctx } = this;
     // 解析数据
     const $ = cheerio.load(str, { decodeEntities: false });
     const imgurl = [];
     $('img').each((index, item) => {
       const img = $(item).attr('src');
-      if (img.indexOf('http') !== -1) {
+      ctx.logger.info('采集图片：' + img);
+      if (img.indexOf('//') !== -1) {
         imgurl.push(img);
       } else {
-        imgurl.push(resurl + img);
+        resurl = resurl + img.substr(0, 1) === '/' ? img : '/' + img;
+        imgurl.push(resurl);
       }
     });
     for (let index = 0; index < imgurl.length; index++) {
@@ -299,32 +310,37 @@ class CollectService extends Service {
     });
     for (let i = 0; i < collect.length; i++) {
       const collectLists = await this.collectList(collect[i].url, collect[i].listrule); // 采集文章列表
-      for (let index = 0; index < collectLists.length; index++) {
-        const collecturl = collectLists[index];
-        if (collecturl.length > 10) {
-          const iscollecturl = await ctx.model.Article.findOne({
-            where: {
-              collecturl,
-            },
-          });
-          if (iscollecturl) {
-            ctx.logger.info('采集重复,放弃采集');
-          } else {
-            const { title, content } = await this.collectArticle(collecturl, collect[i].titlerule, collect[i].articlerule);
-            if (title.length > 1 && content.length > 1) {
-              const res = await this.service.admin.article.add(title, content, collect[i].sourceId, collect[i].category, collecturl);
-              await ctx.helper.delay(100);
-              if (res) {
-                ctx.logger.info('保存成功');
-              }
-              ctx.logger.info('保存失败');
+      try {
+        for (let index = 0; index < collectLists.length; index++) {
+          const collecturl = collectLists[index];
+          if (collecturl.length > 10) {
+            const iscollecturl = await ctx.model.Article.findOne({
+              where: {
+                collecturl,
+              },
+            });
+            if (iscollecturl) {
+              ctx.logger.info('采集重复,放弃采集：' + collecturl);
             } else {
-              ctx.logger.info('采集内容失败');
+              const { title, content } = await this.collectArticle(collecturl, collect[i].titlerule, collect[i].articlerule);
+              if (title.length > 1 && content.length > 1) {
+                const res = await this.service.admin.article.add(title, content, collect[i].sourceId, collect[i].category, collecturl);
+                await ctx.helper.delay(100);
+                if (res) {
+                  ctx.logger.info('保存成功');
+                } else {
+                  ctx.logger.info('保存失败');
+                }
+              } else {
+                ctx.logger.info('采集内容失败');
+              }
             }
+          } else {
+            ctx.logger.info('获取内容页网址失败');
           }
-        } else {
-          ctx.logger.info('获取内容页网址失败');
         }
+      } catch (error) {
+        ctx.logger.info(collect[i].name + '-采集器报错：' + error);
       }
     }
     return 1;
