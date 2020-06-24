@@ -1,17 +1,17 @@
 <div class="pages" style="margin-top: 20px;">
   <ul class="page">
     {% set p = res.page %}
-    {% set maxp = res.maxp %}
+    {% set maxPage = res.maxpage %}
     {% set path = res.rows[0].category.englishName %}
-    {% if p > maxp - 3 %}
-      {% set n = maxp - 4 %}
+    {% if p > maxPage - 3 %}
+      {% set n = maxPage - 4 %}
     {% elif p >= 3 %}
       {% set n = p - 2 %}
     {% else %}
       {% set n = 1 %}
     {% endif %}
-    {% if p + 2 >= maxp %}
-      {% set m = maxp + 1 %}
+    {% if p + 2 >= maxPage %}
+      {% set m = maxPage + 1 %}
     {% elif 3 > p %}
       {% set m = 6 %}
     {% else %}
@@ -39,7 +39,7 @@
         </a>
       {% endif %}
     {% endfor %}
-    {% if p < maxp %}
+    {% if p < maxPage %}
     <a href="/category/{{path}}/{{p+1}}">
       <li class="pageItem">
         下一页

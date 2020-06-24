@@ -10,6 +10,7 @@ module.exports = app => {
     content: TEXT,
     images: STRING,
     sourceId: INTEGER,
+    usersId: INTEGER,
     author: STRING,
     keyword: STRING,
     categoryId: INTEGER,

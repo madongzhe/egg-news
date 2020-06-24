@@ -46,7 +46,7 @@ class AuthService extends Service {
   }
 
   /**
-   * 查找用户名是否存在
+   * 查找媒体名称是否存在
    *
    * @param {*} sourceName 媒体名称
    * @return {*} 结果

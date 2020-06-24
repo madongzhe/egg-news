@@ -1,6 +1,6 @@
-{% extends "layout.html" %}
+{% extends "common/layout_user.html" %}
 
-{% block title %}{{site.name}}{% endblock %}
+{% block title %}文章列表{% endblock %}
 
 {% block content %}
     <div class="index-container clearfix">
@@ -11,15 +11,16 @@
             <div>
                 <h2>文章列表</h2>
             </div>
-            <div class="form-inline">
-                <ul>
-                  {% for item in res.row %}
-                  <li>
-                    <span>asds</span>
-                    <span>2020-1-1</span>
-                    <span>修改 删除</span>
+            <div class="form-inline" style="margin-top: 10px;">
+                <ul class="list-type">
+                  <li v-for="item in rows">
+                    <span v-text="item.title" style="width: 380px;display: inline-block;"></span>
+                    <span v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')" style="width: 120px;display: inline-block;">2020-1-1</span>
+                    <span style="width: 80px;display: inline-block;text-align: center;">
+                      <a :href="'/user/article_edit/'+item.id">编辑</a>
+                      <a href="JavaScript:" @click="del(item.id)">删除</a>
+                    </span>
                   </li>
-                  {% endfor %}
                 </ul>
             </div>
         </div>
@@ -37,11 +38,24 @@
       methods: {
         resdata: function(page) {
           $.ajaxpost(
-            '',
-            {page:page},
+            '/user/article_list/' + page,
+            {},
             function(res) {
               if(res.code === '200') {
                 vm.rows = res.data.rows;
+              }
+            }
+          )
+        },
+        del:function(id) {
+          $.ajaxpost(
+            '/user/article_del',
+            {id:id},
+            function(res) {
+              if(res.code === '200') {
+                vm.resdata(1);
+              } else {
+                $.alerts('error','删除失败');
               }
             }
           )

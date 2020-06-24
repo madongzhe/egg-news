@@ -1,6 +1,6 @@
-{% extends "layout.html" %}
+{% extends "common/layout_user.html" %}
 
-{% block title %}{{site.name}}{% endblock %}
+{% block title %}发布文章{% endblock %}
 
 {% block content %}
     <div class="index-container clearfix">
@@ -9,7 +9,7 @@
         </div>
         <div class="pull-left index-content" style="width: 800px;" id="app">
             <div>
-                <h2>创建文章</h2>
+                <h2>发布文章</h2>
             </div>
             <div>
                 <div class="form-group">
@@ -54,24 +54,15 @@
 
   function save(){
     if($('form').submits()){
-
-      $.ajax({
-        url: '/user/article_add',
-        type: 'post',
-        cache: false,
-        data:$('form').serialize(),
-        beforeSend: function (XMLHttpRequest) {
-            XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
-        },
-        success: function (res) {
+      $.ajaxpost(
+        '/user/article_add',
+        {title:$('[name="title"]').val(),category:$('[name="category"]').val(),content:$('[name="content"]').val()},
+        function(res) {
           if(res.code === '200'){
-            $.modals('success', '保存成功');
-            $('#msg').on('hidden.bs.modal', function (e) {
-              window.location.href = '/user/article_list';
-            });
+            $.modals('success', '保存成功', '/user/article_list');
           }
-        },
-      })
+        }
+      )
     }
   }
 </script>

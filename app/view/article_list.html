@@ -41,14 +41,7 @@
         {% include "common/pages.html" %}
     </div>
     <div class="pull-right index-right-bar">
-      <div class="search-wrapper">
-        <div class="input-group input-group-lg">
-          <input type="text" style="font-size: 14px;background-color: #f5f6f7;" class="form-control" placeholder="搜索站内资讯">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" style="width: 80px;" type="button">搜索</button>
-          </span>
-        </div>
-      </div>
+      {% include 'common/search.html' %}
       <!-- 24小时热闻 -->
       {% include 'hotnews.html' %}
     </div>

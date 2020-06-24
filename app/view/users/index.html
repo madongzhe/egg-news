@@ -11,23 +11,23 @@
             <div>
                 <h2>用户信息</h2>
             </div>
-            <div class="form-inline">
-                <div class="form-group">
-                    <label for="" class="col-2 control-label">手机号：</label>
-                    <div>
-                        <span class="form-control-static">15000000000</span>
-                    </div>
-                </div>
+            <div class="form-inline" style="margin-top: 20px;">
                 <div class="form-group">
                     <label for="" class="col-2 control-label">极客号：</label>
                     <div>
-                        <span class="form-control-static">新闻媒体</span>
+                        <span class="form-control-static">{{source.sourceName}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-2 control-label">介绍：</label>
+                    <div>
+                        <span class="form-control-static">{{source.sourceIntroduce}}</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="col-2 control-label">logo：</label>
                     <div>
-                        <img src="" alt="">
+                        <img src="{{source.mediaLogo}}" style="height: 80px;width: 80px;border: #ccc solid 1px;" alt="">
                     </div>
                 </div>
             </div>

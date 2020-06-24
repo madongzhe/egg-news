@@ -718,7 +718,14 @@ label {
     }
   }
 }
-
+// 列表样式
+.list-type{
+  line-height: 2.5;
+  font-size: 14px;
+  li:nth-of-type(odd){ 
+    background:#f8f8f8;
+  }
+}
 /* 文章详情页 */
 .article-container {
   width: 1170px;

@@ -39,7 +39,7 @@ class ArticleListController extends Controller {
     ctx.validate(createRule, ctx.params);
     const { englishName, page } = ctx.params;
     let res = await ctx.service.article.articleCategoryList(englishName, page, 30);
-    res = Object.assign(res, { maxp: Math.ceil(res.count / 30) }, { page });
+    res = Object.assign(res, { maxpage: Math.ceil(res.count / 30) }, { page: page || 1 });
     await ctx.render('article_list.html', { res });
   }
 

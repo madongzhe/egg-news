@@ -11,7 +11,10 @@ class HomeController extends Controller {
    */
   async index() {
     const { ctx } = this;
-    await ctx.render('users/index.html');
+    const { id, sourceId } = ctx.session.users;
+    const user = await ctx.service.users.user.findId(id);
+    const source = await ctx.service.users.source.findId(sourceId);
+    await ctx.render('users/index.html', { source, user });
   }
 
   /**

@@ -45,7 +45,7 @@ class RegisterController extends Controller {
       return;
     }
     const pwd = crypto.createHash('md5').update(password).digest('hex');
-    const res = await ctx.service.users.user.add(phone, pwd);
+    const res = await ctx.service.users.user.registerUser(phone, pwd);
     if (res) {
       ctx.helper.success();
     } else {
