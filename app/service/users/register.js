@@ -12,16 +12,16 @@ class UserService extends Service {
    * @memberof UserService
    */
   async registerUser(phone, passward) {
-    const user = await this.ctx.service.users.user.findOne(phone);
+    const user = await this.ctx.service.users.user.findphone(phone);
     if (!user) {
       const res = await this.ctx.model.Users.create({
         phone,
         passward,
       });
       if (!res) {
-        this.ctx.throw(404, 'site not found');
+        return false;
       }
-      return res;
+      return true;
     }
     return false;
   }

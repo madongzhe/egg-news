@@ -36,16 +36,22 @@ class RegisterController extends Controller {
       return;
     }
     const { phone, password, repassword, verify } = ctx.request.body;
-    if (ctx.session.verify !== verify) {
+    const resphone = await ctx.service.users.user.findphone(phone);
+    if (resphone) {
+      ctx.helper.fail(422, '手机号已注册');
+      return;
+    }
+    if (ctx.session.verify.toUpperCase() !== verify.toUpperCase()) {
       ctx.helper.fail(422, '验证码不正确');
       return;
     }
+    // await this.service.tools.captcha(); // 生成新的验证码
     if (password !== repassword) {
       ctx.helper.fail(422, '两次密码不一致');
       return;
     }
     const pwd = crypto.createHash('md5').update(password).digest('hex');
-    const res = await ctx.service.users.user.registerUser(phone, pwd);
+    const res = await ctx.service.users.register.registerUser(phone, pwd);
     if (res) {
       ctx.helper.success();
     } else {
@@ -67,13 +73,14 @@ class RegisterController extends Controller {
       await ctx.validate(createRule);
     } catch (error) {
       ctx.logger.warn(error.error);
-      ctx.helper.error(422, '参数错误');
+      ctx.helper.fail(422, '参数错误');
       return;
     }
     const { phone } = ctx.request.query;
-    const res = await ctx.service.users.findOne(phone);
+    const res = await ctx.service.users.user.findphone(phone);
     if (res) {
       ctx.helper.error();
+      return;
     }
     ctx.helper.success();
   }

@@ -10,7 +10,7 @@ class UserService extends Service {
    * @return {*} /
    * @memberof UserService
    */
-  async findOne(phone) {
+  async findphone(phone) {
     const user = await this.ctx.model.Users.findOne({
       where: {
         phone,
