@@ -27,4 +27,5 @@ module.exports = app => {
   require('./router/user_index')(app);
   require('./router/user_article')(app);
   require('./router/auth')(app);
+  require('./router/API/api')(app);
 };

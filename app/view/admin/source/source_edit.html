@@ -1,23 +1,19 @@
 {% extends "admin/layout.html" %}
 
-{% block title %}
-修改媒体
-{% endblock %}
+{% block title %}修改媒体{% endblock %}
 
-{% block head %}
+<!-- {% block head %}
 
-{% endblock %}
+{% endblock %} -->
 
 {% block content %}
 <section class="content-header">
-    <h1>
-      修改媒体
-    </h1>
-    <ol class="breadcrumb">
-      <li><i class="fa fa-tachometer"></i> 仪表盘</li>
-      <li>媒体</li>
-      <li class="active">添加</li>
-    </ol>
+  <h1>修改媒体</h1>
+  <ol class="breadcrumb">
+    <li><i class="fa fa-tachometer"></i> 仪表盘</li>
+    <li>媒体</li>
+    <li class="active">添加</li>
+  </ol>
 </section>
 <section class="content">
   <div class="box box-default">
@@ -27,14 +23,15 @@
         <div class="form-group">
           <label for="" class="col-xs-2 control-label">媒体名称：</label>
           <div class="col-xs-8">
-            <input type="text" name="source_name" value="{{res.sourceName}}" class="form-control" data-validate="required:媒体名称不能空">
+            <input type="text" name="source_name" value="{{res.sourceName}}" class="form-control"
+              data-validate="required:媒体名称不能空">
             <div class="field text-danger"></div>
           </div>
         </div>
         <div class="form-group">
           <label for="" class="col-xs-2 control-label">用户ID：</label>
           <div class="col-xs-8">
-            <input type="text" name="userId" value="{{res.userId}" class="form-control" data-validate="required:用户ID不能空">
+            <input type="text" name="userId" value="{{res.userId}}" class="form-control" data-validate="required:用户ID不能空">
             <div class="field text-danger"></div>
           </div>
         </div>
@@ -53,15 +50,15 @@
 {% block script %}
 <script type="text/javascript" src="/public/admin/js/wangEditor.js" ></script>
 <script type="text/javascript">
-  
-  function save(){
-    if($('form').submits()){
-      ajaxpost('/admin/source/post_edit',$('form').serialize(),function(res){
-        if(res.code === '200'){
-          $.modals('success','保存成功');
+
+  function save() {
+    if ($('form').submits()) {
+      ajaxpost('/admin/source/post_edit', $('form').serialize(), function (res) {
+        if (res.code === '200') {
+          $.modals('success', '保存成功');
           $('#msg').on('hidden.bs.modal', function (e) {
-              window.location.href = '/admin/source';
-            });
+            window.location.href = '/admin/source';
+          });
         }
       })
     }

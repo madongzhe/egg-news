@@ -174,7 +174,7 @@ module.exports = {
     const params = {
       RegionId: 'cn-hangzhou',
       PhoneNumbers: phone,
-      SignName: '极客新闻',
+      SignName: '极客热讯',
       TemplateCode: 'SMS_192541948',
       TemplateParam: { code },
     };

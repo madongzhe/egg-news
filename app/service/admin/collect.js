@@ -6,6 +6,7 @@ const Service = require('egg').Service;
 // 文件存储
 const fs = require('fs');
 const path = require('path');
+// const { listenerCount } = require('process');
 // const awaitWriteStream = require('await-stream-ready').write;
 // const sendToWormhole = require('stream-wormhole');
 
@@ -103,11 +104,11 @@ class CollectService extends Service {
       articlerule,
       state,
     },
-    {
-      where: {
-        id,
-      },
-    });
+      {
+        where: {
+          id,
+        },
+      });
     if (!collect) {
       this.ctx.throw(404, 'site not found');
     }
@@ -126,11 +127,11 @@ class CollectService extends Service {
     const collect = await this.ctx.model.Collect.update({
       state,
     },
-    {
-      where: {
-        id,
-      },
-    });
+      {
+        where: {
+          id,
+        },
+      });
     if (!collect) {
       this.ctx.throw(404, 'site not found');
     }
@@ -164,7 +165,7 @@ class CollectService extends Service {
    * @memberof CollectService
    */
   async collectList(url, reg) {
-    const result = await this.ctx.curl(url, { dataType: 'text' });
+    const result = await this.service.common.hlient.get(url);
     if (result.status === 200) {
       const arrurl = url.split('/');
       arrurl.length = 3;
@@ -197,14 +198,15 @@ class CollectService extends Service {
    */
   async collectArticle(url, titlereg, reg = '') {
     const { ctx } = this;
-    const headers = {
-      'Content-Type': 'application/json; encoding=utf-8',
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
-    };
+    // const headers = {
+    //   'Content-Type': 'application/json; encoding=utf-8',
+    //   'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
+    // };
     ctx.logger.info('采集文章：' + url);
     let result;
     try {
-      result = await this.ctx.curl(url, { dataType: 'text', headers });
+      // result = await this.ctx.curl(url, { dataType: 'text', headers });
+      result = await this.service.common.hlient.get(url);
     } catch (error) {
       result = '';
       ctx.logger.info('采集文章失败：' + error);
@@ -235,22 +237,35 @@ class CollectService extends Service {
     const { ctx } = this;
     // 解析数据
     const $ = cheerio.load(str, { decodeEntities: false });
-    const imgurl = [];
-    $('img').each((index, item) => {
-      const img = $(item).attr('src');
-      ctx.logger.info('采集图片：' + img);
-      if (img.indexOf('//') !== -1) {
-        imgurl.push(img);
-      } else {
-        resurl = resurl + img.substr(0, 1) === '/' ? img : '/' + img;
-        imgurl.push(resurl);
+    // const imgurl = [];
+    // $('img').each((index, item) => {
+    const imgs = $('img');
+    let item;
+    let img;
+    for (let i = 0; i <= imgs.length; i++) {
+      item = imgs[i];
+      img = $(item).attr('src');
+      if (!img) { // 简书采集
+        img = $(item).attr('data-original-src'); // 简书图片
+        if (img) {
+          console.log('采集简书图片：' + img);
+          $('.image-container-fill').remove();
+        }
       }
-    });
-    for (let index = 0; index < imgurl.length; index++) {
-      const res = await this.upimg(imgurl[index]);
-      const reg = new RegExp(imgurl[index], 'g');
-      str = str.replace(reg, res);
+      ctx.logger.info('采集图片：' + img);
+      if (img) {
+        if (img.indexOf('//') !== -1) {
+          if (!img.startsWith('http')) {
+            img = 'https:' + img;
+          }
+        } else {
+          img = resurl + img.substr(0, 1) === '/' ? img : '/' + img;
+        }
+        const resimg = await this.upimg(img);
+        $(item).attr('src', resimg);
+      }
     }
+    str = $.html();
     return str;
   }
 
@@ -263,7 +278,12 @@ class CollectService extends Service {
    */
   async upimg(imgurl) {
     const { ctx } = this;
-    const dataBuffer = await ctx.curl(imgurl);
+    const dataBuffer = await ctx.curl(imgurl, {
+      headers: {
+        'Content-Type': 'application/json; encoding=utf-8',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 UBrowser/4.0.3214.0 Safari/537.36',
+      },
+    });
     const stream = dataBuffer.res.data;
     // const filesize = stream.length;
     // 文件名:随机数+时间戳+原文件后缀
@@ -280,7 +300,7 @@ class CollectService extends Service {
     // const writeStream = fs.createWriteStream(target);
     try {
       // 异步把文件流 写入
-      fs.writeFile(target, stream, 'binary', function(err) {
+      fs.writeFile(target, stream, 'binary', function (err) {
         if (err) {
           ctx.logger.error('保存图片失败:' + err);
           console.log('保存图片失败:' + err);
@@ -355,17 +375,17 @@ class CollectService extends Service {
    * @memberof CollectService
    */
   async ceshi_collectArticle(url, reg = '') {
-    const headers = {
-      'Content-Type': 'application/json; encoding=utf-8',
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36',
-    };
-    const result = await this.ctx.curl(url, { dataType: 'text', headers });
+    const result = await this.service.common.hlient.get(url);
     // 抓取数据
     const htmlData = result.data.toString();
     // 解析数据
     const $ = cheerio.load(htmlData, { decodeEntities: false });
     const cont = $(reg).html();
     return cont;
+    // const arrurl = url.split('/');
+    // arrurl.length = 3;
+    // const resurl = arrurl.join('/');
+    // return await this.downimg(cont, resurl);
   }
 }
 

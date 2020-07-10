@@ -34,7 +34,11 @@ class SourceController extends Controller {
     const createRule = {
       id: 'id',
     };
-    ctx.validate(createRule, ctx.params);
+    try {
+      ctx.validate(createRule, ctx.params);
+    } catch (error) {
+      throw new Error('参数错误');
+    }
     const id = ctx.params.id;
     const res = await ctx.service.admin.source.selone(id);
     await ctx.render('admin/source/source_edit.html', { res });

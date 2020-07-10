@@ -37,7 +37,16 @@
                 </div>
                 <div class="article-content">
                     {{article.content|safe}}
+                    <div style="font-size: 12px;color: #ccc;">
+                        {% if article.author%}
+                        <span>作者：{{article.author}}</span>
+                        {% endif %}
+                        {% if article.collecturl %}
+                        <a href="{{article.collecturl}}" style="color: #ccc;" target="_blank">查看原文</a>
+                        {% endif %}
+                    </div>
                 </div>
+                <div>本站所有信息均来自互联网，倘若您发现本站有侵权或不当信息，请与本站联系，经本站核实后将尽快修正！</div>
             </div>
         </div>
         <div class="pull-left article-content">
