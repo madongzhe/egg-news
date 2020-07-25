@@ -31,6 +31,8 @@ hr {
 pre {
   font-family: monospace,monospace;
   font-size: 1em;
+  overflow: auto;
+  max-width: 100%;
 }
 
 a {
@@ -51,7 +53,8 @@ b, strong {
 
 code, kbd, samp {
   font-family: monospace,monospace;
-  font-size: 1em;
+  font-size: 0.9em;
+  line-height: 1.6;
 }
 
 dfn {
@@ -891,6 +894,10 @@ label {
 
 .article-container .index-middle {
   width: 660px;
+}
+
+.article-container .index-middle .article-content {
+  width: 100%;
 }
 
 .article-container .index-right {

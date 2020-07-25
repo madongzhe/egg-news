@@ -3,7 +3,9 @@
     {% set p = res.page %}
     {% set maxPage = res.maxpage %}
     {% set path = res.rows[0].category.englishName %}
-    {% if p > maxPage - 3 %}
+    {% if 3 > maxPage %}
+      {% set n = maxPage %}
+    {% elif p > maxPage - 3 %}
       {% set n = maxPage - 4 %}
     {% elif p >= 3 %}
       {% set n = p - 2 %}

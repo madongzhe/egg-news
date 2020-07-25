@@ -5,8 +5,8 @@ const Controller = require('../../core/admin_base_controller');
 class HomeController extends Controller {
   async index() {
     const { ctx } = this;
-    const data = {}; // await ctx.service.site.findOne();
-    await ctx.render('admin/home', data);
+    const res = await ctx.service.admin.home.dashboard();
+    await ctx.render('admin/home', { res });
   }
 }
 

@@ -65,9 +65,15 @@
         </div>
         <div class="form-group">
           <label for="" class="col-xs-2 control-label">采集网址：</label>
-          <div class="col-xs-8">
+          <div class="col-xs-6">
             <input type="text" name="url" class="form-control" value="{{res.url}}" data-validate="required:文章来源不能空">
             <div class="field text-danger"></div>
+          </div>
+          <div class="col-xs-2">
+            <select name="urltype" class="form-control">
+              <option value="1">HTML</option>
+              <option value="2">API</option>
+            </select>
           </div>
         </div>
         <div class="form-group">
@@ -146,6 +152,7 @@
   
   function test_title(url,reg){
     var url = $('[name="url"]').val();
+    var urltype = $('[name="urltype"]').val();
     var listrule = $('[name="listrule"]').val();
     var titlerule = $('[name="titlerule"]').val();
     if(!url){
@@ -159,7 +166,7 @@
       $.modals('error','采集标题规则没填写');
       return;
     }
-    ajaxpost('/admin/collect/test_title',{url:url,listrule:listrule,titlerule:titlerule},function(res) {
+    ajaxpost('/admin/collect/test_title',{url:url,urltype:urltype,listrule:listrule,titlerule:titlerule},function(res) {
       $.modals('success',res.data)
     })
   }

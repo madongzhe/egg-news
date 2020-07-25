@@ -17,6 +17,7 @@ module.exports = app => {
   require('./router/admin_category')(app);
   require('./router/admin_link')(app);
   require('./router/admin_users')(app);
+  require('./router/admin')(app);
   require('./router/feedback')(app);
   require('./router/login')(app);
   require('./router/search')(app);

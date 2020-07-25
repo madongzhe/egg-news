@@ -300,7 +300,7 @@ class CollectService extends Service {
     // const writeStream = fs.createWriteStream(target);
     try {
       // 异步把文件流 写入
-      fs.writeFile(target, stream, 'binary', function (err) {
+      fs.writeFile(target, stream, 'binary', err => {
         if (err) {
           ctx.logger.error('保存图片失败:' + err);
           console.log('保存图片失败:' + err);

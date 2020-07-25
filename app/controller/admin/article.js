@@ -76,11 +76,16 @@ class ArticleController extends Controller {
     const createRule = {
       title: 'string',
       content: 'string',
-      source: 'string',
-      category: 'string',
+      sourceId: 'int',
+      category: 'int',
     };
     // 校验参数
-    ctx.validate(createRule);
+    try {
+      ctx.validate(createRule);
+    } catch (error) {
+      ctx.helper.fail(422);
+      return;
+    }
     // 组装参数
     // const author = ctx.session.id;
     // const req = Object.assign(ctx.request.body, { author });
@@ -103,12 +108,17 @@ class ArticleController extends Controller {
     const createRule = {
       title: 'string',
       content: 'string',
-      source: 'string',
-      category: 'string',
+      sourceId: 'int',
+      category: 'int',
       id: 'number',
     };
     // 校验参数
-    ctx.validate(createRule);
+    try {
+      ctx.validate(createRule);
+    } catch (error) {
+      ctx.helper.fail(422);
+      return;
+    }
     const { title, content, source, category, id } = ctx.request.body;
     const res = await ctx.service.admin.article.edit(title, content, source, category, id);
     if (res) {

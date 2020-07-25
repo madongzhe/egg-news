@@ -16,7 +16,7 @@ class LoginService extends Service {
       username: name,
     });
     if (admin && admin.password === pwd) {
-      this.ctx.session.admin = admin.dataValues;
+      this.ctx.session.admin = admin;
       return true;
     }
     return false;

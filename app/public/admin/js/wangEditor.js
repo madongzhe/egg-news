@@ -2029,13 +2029,14 @@ Code.prototype = {
         var type = !value ? 'new' : 'edit';
         var textId = getRandom('texxt');
         var btnId = getRandom('btn');
+        var codeId = getRandom('code');
 
         var panel = new Panel(this, {
             width: 500,
             // 一个 Panel 包含多个 tab
             tabs: [{
                 // 标题
-                title: '插入代码',
+                title: '插入代码 <select id="'+ codeId +'"><option value ="html">html</option><option value ="javascript">javascript</option><option value ="css">css</option><option value ="go">go</option></select>',
                 // 模板
                 tpl: '<div>\n                        <textarea id="' + textId + '" style="height:145px;;">' + value + '</textarea>\n                        <div class="w-e-button-container">\n                            <button id="' + btnId + '" class="right">\u63D2\u5165</button>\n                        </div>\n                    <div>',
                 // 事件绑定
@@ -2045,15 +2046,16 @@ Code.prototype = {
                     selector: '#' + btnId,
                     type: 'click',
                     fn: function fn() {
+                        var code = $('#' + codeId).val();
                         var $text = $('#' + textId);
                         var text = $text.val() || $text.html();
                         text = replaceHtmlSymbol(text);
                         if (type === 'new') {
                             // 新插入
-                            _this._insertCode(text);
+                            _this._insertCode(text, code);
                         } else {
                             // 编辑更新
-                            _this._updateCode(text);
+                            _this._updateCode(text, code);
                         }
 
                         // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
@@ -2072,18 +2074,20 @@ Code.prototype = {
     },
 
     // 插入代码
-    _insertCode: function _insertCode(value) {
+    _insertCode: function _insertCode(value, code) {
         var editor = this.editor;
-        editor.cmd.do('insertHTML', '<pre><code>' + value + '</code></pre><p><br></p>');
+        var code = code || 'html'
+        editor.cmd.do('insertHTML', '<pre><code class="' + code + '" >' + value + '</code></pre><p><br></p>');
     },
 
     // 更新代码
-    _updateCode: function _updateCode(value) {
+    _updateCode: function _updateCode(value, code) {
         var editor = this.editor;
         var $selectionELem = editor.selection.getSelectionContainerElem();
         if (!$selectionELem) {
             return;
         }
+        $selectionELem.attr("class",code);
         $selectionELem.html(value);
         editor.selection.restoreSelection();
     },

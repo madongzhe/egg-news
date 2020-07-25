@@ -1,0 +1,195 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}管理员列表{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+    <h1>管理员列表 </h1>
+    <ol class="breadcrumb">
+      <li><i class="fa fa-tachometer"></i> 仪表盘</li>
+      <li>列表</li>
+    </ol>
+</section>
+<section class="content" id="app">
+  <div class="box box-default">
+    <div class="box-body">
+      <form action="" method="post" class="form-inline">
+          <div class="form-group form-group-sm">
+              <label for="">手机号：</label>
+              <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+              <button class="btn btn-sm btn-primary">查询</button>
+          </div>
+      </form>
+    </div>
+    <div class="box-body">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-add">
+            新增
+        </button>
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 200px;">ID</th>
+                    <th>用户名</th>
+                    <!-- <th>状态</th> -->
+                    <th style="width: 160px;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in rows">
+                    <td v-text="item.id"></td>
+                    <td v-text="item.username"></td>
+                    <!-- <td v-text="item.active==1?'正常':'禁用'"></td> -->
+                    <td>
+                        <button @click="edit(item)" class="btn btn-xs btn-link">修改</a>
+                          <button @click="del(item)" class="btn btn-xs btn-link">删除</a>
+                        <button @click="isactive(item)" class="btn btn-xs btn-link" v-text="item.active==1?'禁用':'启用'">修改</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+  <!-- 新增 -->
+  <div class="modal fade" id="modal-add">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">新增管理员</h4>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+              <div class="form-group">
+                  <label for="">用户名：</label>
+                  <input type="text" name="username" class="form-control" v-model="username" data-validate="required:手机号不能空">
+                  <div class="field text-danger"></div>
+              </div>
+              <div class="form-group">
+                  <label for="">密码：</label>
+                  <input type="password" name="password" class="form-control" v-model="password" data-validate="required:密码不能空">
+                  <div class="field text-danger"></div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="post_add()">保存</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- 修改 -->
+  <div class="modal fade" id="modal-edit">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">修改管理员</h4>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+              <div class="form-group">
+                    <label for="">用户名：</label>
+                    <span v-text="edititem.username"></span>
+              </div>
+              <div class="form-group">
+                    <label for="">密码：</label>
+                    <input type="password" name="password" class="form-control" v-model="edititem.password" data-validate="required:密码不能空">
+                    <div class="field text-danger"></div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="post_edit()">保存</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="/public/admin/js/md5.js"></script>
+<script>
+    var  data = {{res|safe}};
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            rows: data.rows,
+            username: '',
+            password: '',
+            edititem: ''
+        },
+        methods: {
+            edit:function(item) {
+                this.edititem = JSON.parse(JSON.stringify(item));
+                $('#modal-edit').modal('show');
+            },
+            post_add:function(){
+              if($('#modal-add').submits()){
+                var password = hex_md5(this.password);
+                ajaxpost('/admin/admin/post_add',{phone:this.phone, password:password},function(res){
+                    if(res.code === '200') {
+                        $.modals('success','添加成功');
+                        $('#msg').on('hidden.bs.modal',function(){
+                            location.href = '/admin/admin_list'
+                        })
+                    }
+                })
+              }
+            },
+            post_edit:function(){
+              if($('#modal-edit').submits()) {
+                var password = hex_md5(this.edititem.password);
+                ajaxpost('/admin/admin/post_edit',{id:this.edititem.id,password: password},function(res){
+                    if(res.code === '200') {
+                        $.modals('success','修改成功');
+                        $('#msg').on('hidden.bs.modal',function(){
+                            location.href = '/admin/admin_list';
+                        })
+                    }
+                })
+              }
+            },
+            isactive:function(){
+              ajaxpost('/admin/admin/active',{id:item.id},function(){
+                if(res.code === '200') {
+                  $.modals('success','修改成功');
+                  $('#msg').on('hidden.bs.modal',function(){
+                      location.href = '/admin/admin_list';
+                  })
+                }
+              })
+            },
+            del:function(item){
+              ajaxpost('/admin/admin/del',{id:item.id},function(){
+                if(res.code === '200') {
+                  $.modals('success','删除成功');
+                  $('#msg').on('hidden.bs.modal',function(){
+                      location.href = '/admin/admin_list';
+                  })
+                }
+              })
+            }
+        }
+    })
+
+</script>
+{% endblock %}
