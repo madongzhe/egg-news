@@ -67,7 +67,25 @@ class AdminService extends Service {
    */
   async list() {
     return await this.ctx.model.Admin.findAndCountAll({
-      attributes: ['id', 'username', 'createdAt'],
+      attributes: [ 'id', 'username', 'createdAt', 'active' ],
+    });
+  }
+
+  /**
+   * 修改管理员状态
+   *
+   * @param {*} id // id
+   * @param {*} active 状态
+   * @return {*} 、
+   * @memberof AdminService
+   */
+  async isactive(id, active) {
+    return await this.ctx.model.Admin.update({
+      active,
+    }, {
+      where: {
+        id,
+      },
     });
   }
 }

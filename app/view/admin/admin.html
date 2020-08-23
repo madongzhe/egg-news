@@ -19,8 +19,8 @@
     <div class="box-body">
       <form action="" method="post" class="form-inline">
           <div class="form-group form-group-sm">
-              <label for="">手机号：</label>
-              <input type="text" class="form-control">
+              <label for="">用户名：</label>
+              <input type="text" name="username" class="form-control">
           </div>
           <div class="form-group">
               <button class="btn btn-sm btn-primary">查询</button>
@@ -38,7 +38,7 @@
                 <tr>
                     <th style="width: 200px;">ID</th>
                     <th>用户名</th>
-                    <!-- <th>状态</th> -->
+                    <th>状态</th>
                     <th style="width: 160px;">操作</th>
                 </tr>
             </thead>
@@ -46,11 +46,14 @@
                 <tr v-for="item in rows">
                     <td v-text="item.id"></td>
                     <td v-text="item.username"></td>
-                    <!-- <td v-text="item.active==1?'正常':'禁用'"></td> -->
                     <td>
-                        <button @click="edit(item)" class="btn btn-xs btn-link">修改</a>
-                          <button @click="del(item)" class="btn btn-xs btn-link">删除</a>
-                        <button @click="isactive(item)" class="btn btn-xs btn-link" v-text="item.active==1?'禁用':'启用'">修改</a>
+                      <span v-if="item.active==1" class="text-success">启用</span>
+                      <span v-else class='text-danger'>禁用</span>
+                    </td>
+                    <td>
+                        <button type="button" @click="edit(item)" class="btn btn-xs btn-link">修改</a>
+                        <button type="button" @click="del(item)" class="btn btn-xs btn-link">删除</a>
+                        <button type="button" @click="isactive(item)" class="btn btn-xs btn-link" v-text="item.active==1?'禁用':'启用'">启用</a>
                     </td>
                 </tr>
             </tbody>
@@ -145,7 +148,7 @@
             post_add:function(){
               if($('#modal-add').submits()){
                 var password = hex_md5(this.password);
-                ajaxpost('/admin/admin/post_add',{phone:this.phone, password:password},function(res){
+                ajaxpost('/admin/admin/post_add',{username:this.username, password:password},function(res){
                     if(res.code === '200') {
                         $.modals('success','添加成功');
                         $('#msg').on('hidden.bs.modal',function(){
@@ -168,10 +171,11 @@
                 })
               }
             },
-            isactive:function(){
-              ajaxpost('/admin/admin/active',{id:item.id},function(){
+            isactive:function(item){
+              let active = item.active ? 0 : 1;
+              ajaxget('/admin/admin/active/' + item.id + '/' + active ,function(res){
                 if(res.code === '200') {
-                  $.modals('success','修改成功');
+                  $.modals('success',active == 1 ? '启用成功' : '禁用成功');
                   $('#msg').on('hidden.bs.modal',function(){
                       location.href = '/admin/admin_list';
                   })

@@ -13,7 +13,10 @@ class LoginService extends Service {
    */
   async login(name, pwd) {
     const admin = await this.ctx.model.Admin.findOne({
-      username: name,
+      where: {
+        username: name,
+        active: 1,
+      },
     });
     if (admin && admin.password === pwd) {
       this.ctx.session.admin = admin;

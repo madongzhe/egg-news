@@ -8,6 +8,7 @@ module.exports = app => {
     name: STRING,
     englishName: STRING,
     menus: INTEGER,
+    active: INTEGER,
     createdAt: DATE,
     updatedAt: DATE,
   }, {

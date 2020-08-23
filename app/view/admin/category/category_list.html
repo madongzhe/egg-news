@@ -43,6 +43,7 @@
                 <tr>
                     <th>分类名称</th>
                     <th>英文名称</th>
+                    <th>状态</th>
                     <th style="width: 160px;">操作</th>
                 </tr>
             </thead>
@@ -50,8 +51,10 @@
                 <tr v-for="item in rows">
                     <td v-text="item.name"></td>
                     <td v-text="item.englishName"></td>
+                    <td v-text="item.active == 1?'显示':'隐藏'"></td>
                     <td>
                         <button @click="edit(item)" class="btn btn-xs btn-link">修改</a>
+                        <button type="button" @click="isactive(item)" class="btn btn-xs btn-link" v-text="item.active==1?'隐藏':'显示'">启用</a>
                     </td>
                 </tr>
             </tbody>

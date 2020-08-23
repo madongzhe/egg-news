@@ -550,3 +550,19 @@ function ajaxpost(url, data, callback){
     }
   })
 }
+function ajaxget(url, callback){
+  $.ajax({
+    url:url,
+    type: 'GET',
+    cache: false,
+    success: function(res){
+      callback(res);
+    },
+    beforeSend: function (XMLHttpRequest) {
+        XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+    },
+    error: function(err){
+      $.modals('error','请求失败, 请检查网络');
+    }
+  })
+}

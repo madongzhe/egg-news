@@ -23,7 +23,7 @@ class CategoryService extends Service {
    */
   async findall() {
     const res = this.ctx.model.Category.findAll({
-      attributes: [ 'id', 'name', 'englishName' ],
+      attributes: [ 'id', 'name', 'englishName', 'active' ],
     });
     return res;
   }
