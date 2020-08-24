@@ -57,5 +57,30 @@ class CategoryController extends Controller {
       ctx.helper.error();
     }
   }
+  /**
+   * 修改状态
+   *
+   * @memberof CategoryController
+   */
+  async get_active() {
+    const { ctx } = this;
+    const createRule = {
+      id: 'int',
+      active: 'int',
+    };
+    try {
+      ctx.validate(createRule, ctx.params);
+    } catch (error) {
+      ctx.helper.fail(422);
+      return;
+    }
+    const { id, active } = ctx.params;
+    const res = await ctx.service.admin.category.active(id, active);
+    if (res) {
+      ctx.helper.success();
+    } else {
+      ctx.helper.error();
+    }
+  }
 }
 module.exports = CategoryController;

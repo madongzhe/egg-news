@@ -70,5 +70,26 @@ class CategoryService extends Service {
     }
     return res;
   }
+
+  /**
+   * 修改状态
+   *
+   * @param {*} id id
+   * @param {*} active 状态
+   * @memberof CategoryService
+   */
+  async active(id, active) {
+    const res = this.ctx.model.Category.update({
+      active,
+    }, {
+      where: {
+        id,
+      },
+    });
+    if (!res) {
+      this.ctx.throw(404, 'site not found');
+    }
+    return res;
+  }
 }
 module.exports = CategoryService;

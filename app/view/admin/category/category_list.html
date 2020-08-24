@@ -165,6 +165,17 @@
                         })
                     }
                 })
+            },
+            isactive:function(item){
+              var active = item.active ? 0 : 1;
+              ajaxget('/admin/category/active/'+ item.id + '/' + active,function(res) {
+                if(res.code == '200'){
+                  $.modals('success','修改成功');
+                  $('#msg').on('hidden.bs.modal',function(){
+                      location.href = '/admin/category'
+                  })
+                }
+              })
             }
         }
     })
