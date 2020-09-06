@@ -17,7 +17,7 @@ class ArticleService extends Service {
     this.ctx.model.Source.hasOne(this.ctx.model.Article);
     this.ctx.model.Article.belongsTo(this.ctx.model.Source, { foreignKey: 'sourceId', targetKey: 'id' });
     const article = await this.ctx.model.Article.findOne({
-      include: [{ model: this.ctx.model.Category, attributes: [ 'name', 'englishName' ] }, { model: this.ctx.model.Source, attributes: [ 'sourceName', 'mediaLogo' ] }],
+      include: [{ model: this.ctx.model.Category, attributes: ['name', 'englishName'] }, { model: this.ctx.model.Source, attributes: ['sourceName', 'mediaLogo'] }],
       where: {
         id,
       },
@@ -96,13 +96,13 @@ class ArticleService extends Service {
     this.ctx.model.Source.hasOne(this.ctx.model.Article);
     this.ctx.model.Article.belongsTo(this.ctx.model.Source, { foreignKey: 'sourceId', targetKey: 'id' });
     const List = await this.ctx.model.Article.findAndCountAll({
-      attributes: [ 'id', 'title', 'images', 'createdAt', 'category.name' ],
+      attributes: ['id', 'title', 'images', 'createdAt', 'category.name'],
       include: [{ model: this.ctx.model.Category }, { model: this.ctx.model.Source }],
       where: {
         sourceId,
         status,
       },
-      order: [[ 'createdAt', 'DESC' ]],
+      order: [['createdAt', 'DESC']],
       offset: size * (page - 1),
       limit: size,
     });
@@ -127,15 +127,15 @@ class ArticleService extends Service {
     this.ctx.model.Source.hasOne(this.ctx.model.Article);
     this.ctx.model.Article.belongsTo(this.ctx.model.Source, { foreignKey: 'sourceId', targetKey: 'id' });
     const List = await this.ctx.model.Article.findAndCountAll({
-      attributes: [ 'id', 'title', 'images', 'createdAt', 'category.name' ],
+      attributes: ['id', 'title', 'images', 'createdAt', 'category.name'],
       include: [
-        { model: this.ctx.model.Category, attributes: [ 'name', 'englishName' ], where: { englishName } },
-        { model: this.ctx.model.Source, attributes: [ 'sourceName' ] }
+        { model: this.ctx.model.Category, attributes: ['name', 'englishName'], where: { englishName } },
+        { model: this.ctx.model.Source, attributes: ['sourceName'] },
       ],
       where: {
         status,
       },
-      order: [[ 'createdAt', 'DESC' ]],
+      order: [['createdAt', 'DESC']],
       offset: size * (page - 1),
       limit: size,
     });
@@ -160,28 +160,28 @@ class ArticleService extends Service {
       this.ctx.model.Category.hasOne(this.ctx.model.Article);
       this.ctx.model.Article.belongsTo(this.ctx.model.Category, { foreignKey: 'categoryId', targetKey: 'id' });
       res = ctx.model.Article.findAll({
-        attributes: [ 'id', 'title', 'images', 'createdAt' ],
+        attributes: ['id', 'title', 'images', 'createdAt'],
         include: [
-          { model: this.ctx.model.Category, attributes: [ 'name', 'englishName' ], where: { englishName } },
+          { model: this.ctx.model.Category, attributes: ['name', 'englishName'], where: { englishName } },
         ],
         where: {
           createdAt: {
             [Op.gte]: new Date(new Date() - 24 * 60 * 60 * 1000),
           },
         },
-        order: [[ 'look', 'DESC' ]],
+        order: [['look', 'DESC']],
         offset: 0,
         limit: 5,
       });
     } else {
       res = ctx.model.Article.findAll({
-        attributes: [ 'id', 'title', 'images', 'createdAt' ],
+        attributes: ['id', 'title', 'images', 'createdAt'],
         where: {
           createdAt: {
             [Op.gte]: new Date(new Date() - 24 * 60 * 60 * 1000),
           },
         },
-        order: [[ 'look', 'DESC' ]],
+        order: [['look', 'DESC']],
         offset: 0,
         limit: 5,
       });
@@ -200,18 +200,50 @@ class ArticleService extends Service {
    */
   async search(key) {
     const res = this.ctx.model.Article.findAll({
-      attributes: [ 'id', 'title', 'createdAt' ],
+      attributes: ['id', 'title', 'createdAt'],
       where: {
         title: {
           // 模糊查询
           [Op.like]: '%' + key + '%',
         },
       },
-      order: [[ 'createdAt', 'DESC' ]],
+      order: [['createdAt', 'DESC']],
       offset: 0,
       limit: 30,
     });
     return res;
+  }
+  /**
+   * 媒体文章列表
+   * @param {*} sourceId
+   * @param {number} [page=1]
+   * @param {number} [size=10]
+   * @param {number} [status=1]
+   * @return
+   * @memberof ArticleService
+   */
+  async sourceArticleList(sourceId, page = 1, size = 10, status = 1) {
+    this.ctx.model.Category.hasOne(this.ctx.model.Article);
+    this.ctx.model.Article.belongsTo(this.ctx.model.Category, { foreignKey: 'categoryId', targetKey: 'id' });
+    this.ctx.model.Source.hasOne(this.ctx.model.Article);
+    this.ctx.model.Article.belongsTo(this.ctx.model.Source, { foreignKey: 'sourceId', targetKey: 'id' });
+    const List = await this.ctx.model.Article.findAndCountAll({
+      attributes: [ 'id', 'title', 'images', 'createdAt', 'category.name' ],
+      include: [
+        { model: this.ctx.model.Category, attributes: [ 'name', 'englishName' ] },
+        { model: this.ctx.model.Source, attributes: [ 'sourceName' ], where: { id: sourceId } },
+      ],
+      where: {
+        status,
+      },
+      order: [[ 'createdAt', 'DESC' ]],
+      offset: size * (page - 1),
+      limit: size,
+    });
+    if (!List) {
+      this.ctx.throw(404, 'site not found');
+    }
+    return List;
   }
 }
 

@@ -21,7 +21,7 @@
                           <div class="title-box"><a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a></div>
                           <div class="bui-box footer-bar">
                             <a href="/category/{{item.category.englishName}}" target="_blank" class="footer-bar-action tag">{{item.category.name}}</a>
-                            <a href="#" class="footer-bar-action source">{{item.source.sourceName}}</a>
+                            <a href="/source/{{item.source.id}}" class="footer-bar-action source">{{item.source.sourceName}}</a>
                             <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
                           </div>
                         </div>
@@ -37,7 +37,7 @@
                       <div class="bui-box footer-bar">
                         <div class="bui-left footer-bar-left">
                           <a href="/category/{{item.category.englishName}}" target="_blank" class="footer-bar-action tag">{{item.category.name}}</a>
-                          <a href="#" target="_blank" class="footer-bar-action source">{{item.source.sourceName}}</a>
+                          <a href="/source/{{item.source.id}}" target="_blank" class="footer-bar-action source">{{item.source.sourceName}}</a>
                           <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
                         </div>
                       </div>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="bui-box footer-bar">
                               <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag"  :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
-                              <a href="#" class="footer-bar-action source" v-text="item.source.sourceName"></a>
+                              <a :href="'/source/'+item.source.id" class="footer-bar-action source" v-text="item.source.sourceName"></a>
                               <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
                             </div>
                           </div>
@@ -75,7 +75,7 @@
                     <div class="bui-box footer-bar">
                       <div class="bui-left footer-bar-left">
                         <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
-                        <a href="#" target="_blank" class="footer-bar-action source" v-text="item.source.sourceName"></a>
+                        <a :href="'/source/'+item.source.id" target="_blank" class="footer-bar-action source" v-text="item.source.sourceName"></a>
                         <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
                       </div>
                     </div>

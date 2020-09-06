@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% block title %}{{article.title}}-{{site.name}}{% endblock %}
+
+{% block header %}
+<div class="middlebar">
+    <div class="middlebar-inner clearfix" style="width: 1170px;">
+        <div class="pull-left logo-box">
+            <a href="/" class="logo-link">
+                <img src="/public/logo.png" class="logo">
+            </a>
+        </div>
+        <div class="pull-right">
+            {% include 'common/search.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="article-container source clearfix">
+    <div class="banner">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="pull-left index-middle" style="width: 800px;">
+        <ul class="nav nav-tabs">
+            <li class="active">文章</li>
+        </ul>
+        <div class="article-list">
+            <ul>
+                {% for item in rows %}
+                {% if item.images %}
+                <li>
+                    <div class="single-mode">
+                        <div class="pull-left single-mode-lbox">
+                            <a href="/p/{{item.id}}.html" target="_blank" class="img-wrap"><img class="lazy-load-img"
+                                    src="{{item.images|image}}" style="width: 160px;" alt=""></a>
+                        </div>
+                        <div class="single-mode-rbox clearfix">
+                            <div class="single-mode-rbox-inner">
+                                <div class="title-box"><a href="/p/{{item.id}}.html" target="_blank"
+                                        class="link">{{item.title}}</a></div>
+                                <div class="bui-box footer-bar"> 
+                                    <a href="/category/{{item.category.englishName}}" target="_blank"
+                                        class="footer-bar-action tag">{{item.category.name}}</a>
+                                    <a href="/source/{{item.source.id}}"
+                                        class="footer-bar-action source">{{item.source.sourceName}}</a>
+                                    <span
+                                        class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% else %}
+                <li>
+                    <div class="no-mode">
+                        <div class="title-box">
+                            <a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a>
+                        </div>
+                        <div class="bui-box footer-bar">
+                            <div class="bui-left footer-bar-left">
+                                <a href="/category/{{item.category.englishName}}" target="_blank"
+                                    class="footer-bar-action tag">{{item.category.name}}</a>
+                                <a href="/source/{{item.source.id}}" target="_blank"
+                                    class="footer-bar-action source">{{item.source.sourceName}}</a>
+                                <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+                <template v-for="item in rows">
+                    <li v-if="item.images">
+                        <div class="single-mode">
+                            <div class="pull-left single-mode-lbox">
+                                <a :href="'/p/'+item.id" target="_blank" class="img-wrap">
+                                    <img class="lazy-load-img" :src="item.images.split(',')[0]" style="width: 160px;"
+                                        alt="">
+                                </a>
+                            </div>
+                            <div class="single-mode-rbox clearfix">
+                                <div class="single-mode-rbox-inner">
+                                    <div class="title-box">
+                                        <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
+                                    </div>
+                                    <div class="bui-box footer-bar">
+                                        <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag"
+                                            :class="'tag-style-'+item.category.englishName"
+                                            v-text="item.category.name"></a>
+                                        <a :href="'/source/'+item.source.id" class="footer-bar-action source"
+                                            v-text="item.source.sourceName"></a>
+                                        <span class="footer-bar-action"
+                                            v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li v-else>
+                        <div class="no-mode">
+                            <div class="title-box">
+                                <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
+                            </div>
+                            <div class="bui-box footer-bar">
+                                <div class="bui-left footer-bar-left">
+                                    <a :href="'/category/'+item.category.englishName" target="_blank"
+                                        class="footer-bar-action tag" :class="'tag-style-'+item.category.englishName"
+                                        v-text="item.category.name"></a>
+                                    <a :href="'/source/'+item.source.id" target="_blank"
+                                        class="footer-bar-action source" v-text="item.source.sourceName"></a>
+                                    <span class="footer-bar-action"
+                                        v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+            <div class="text-center" style="line-height: 50px;" v-if="loading">数据加载中。。。</div>
+        </div>
+    </div>
+    <div class="pull-right index-right">
+        <div class="text-center clearfix fans">
+            <div class="col-6">
+                <p>11</p>
+                <span>关注</span>
+            </div>
+            <div class="col-6">
+                <p>323232</p>
+                <span>粉丝</span>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-title">
+                近期最佳文章
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

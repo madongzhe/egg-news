@@ -1,4 +1,7 @@
 @charset "UTF-8";
+
+$red: #CF3333;
+
 html {
   line-height: 1.15;
   -ms-text-size-adjust: 100%;
@@ -328,8 +331,8 @@ b, em, h1, h2, h3, h4, h5, h6, strong {
   color: #fff;
 }
 .btn-danger{
-    background: #CF3333;
-    border-color: #CF3333;
+    background: $red;
+    border-color: $red;
     color: #fff;
 }
 .btn:hover{
@@ -376,7 +379,7 @@ b, em, h1, h2, h3, h4, h5, h6, strong {
 }
 // 字体颜色
 .text-red {
-  color: #CF3333;
+  color: $red;
 }
 // 对齐样式
 .text-center {
@@ -566,7 +569,7 @@ label {
 
 .single-mode-rbox-inner {
   display: inline-block;
-  width: 100%;
+  max-width: 100%;
   vertical-align: middle;
 }
 
@@ -1015,4 +1018,54 @@ button.close {
   width: 50px;
   height: 50px;
   overflow: scroll;
+}
+// 媒体页
+.source{
+  .banner{
+    background-color: #ccc;
+    height: 200px;
+    margin-bottom: 15px;
+  }
+  
+  .nav-tabs{
+    width: 100%;
+    padding: 0px 20px;
+    border-bottom: 2px solid #ccc;
+    li{
+      display: inline-block;
+      padding:10px;
+      font-size: 18px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      a{
+        color: #333;
+      }
+    }
+    .active{
+      border-bottom: 2px solid $red;
+      a{
+        color: $red;
+      }
+    }
+  }
+
+  .fans{
+    background-color: #f4f5f6;
+    margin-bottom: 10px;
+    padding: 10px;
+    p{
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+  .box{
+    border-top: 2px solid $red;
+    .box-title{
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 2;
+      padding: 5px 10px;
+      border-bottom: 1px solid #ccc;
+    }
+  }
 }

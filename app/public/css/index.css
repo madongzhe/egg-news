@@ -702,7 +702,7 @@ label {
 
 .single-mode-rbox-inner {
   display: inline-block;
-  width: 100%;
+  max-width: 100%;
   vertical-align: middle;
 }
 
@@ -1201,4 +1201,59 @@ button.close {
   width: 50px;
   height: 50px;
   overflow: scroll;
+}
+
+.source .banner {
+  background-color: #ccc;
+  height: 200px;
+  margin-bottom: 15px;
+}
+
+.source .nav-tabs {
+  width: 100%;
+  padding: 0px 20px;
+  border-bottom: 2px solid #ccc;
+}
+
+.source .nav-tabs li {
+  display: inline-block;
+  padding: 10px;
+  font-size: 18px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.source .nav-tabs li a {
+  color: #333;
+}
+
+.source .nav-tabs .active {
+  border-bottom: 2px solid #CF3333;
+}
+
+.source .nav-tabs .active a {
+  color: #CF3333;
+}
+
+.source .fans {
+  background-color: #f4f5f6;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.source .fans p {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.source .box {
+  border-top: 2px solid #CF3333;
+}
+
+.source .box .box-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 2;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ccc;
 }
