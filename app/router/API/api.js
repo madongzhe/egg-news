@@ -5,4 +5,5 @@
  */
 module.exports = app => {
   require('./article')(app);
+  require('./subscribe')(app);
 };

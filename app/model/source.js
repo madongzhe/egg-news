@@ -14,6 +14,8 @@ module.exports = app => {
     operator: STRING,
     mail: STRING,
     sourceType: INTEGER,
+    subscribe: INTEGER,
+    fans: INTEGER,
     createdAt: DATE,
     updatedAt: DATE,
   }, {

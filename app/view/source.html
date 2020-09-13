@@ -19,11 +19,16 @@
 
 {% block content %}
 <div class="article-container source clearfix">
-    <div class="banner">
-        <div></div>
-        <div></div>
+    <div class="head">
+        <div><img src="/public/images/source_banner.jpg" width="100%" alt="" srcset=""></div>
+        <div class="clearfix title">
+            <span><img src="{{sourceInfo.mediaLogo}}" alt="logo" class="logo" srcset=""></span>
+            <span class="source_name">{{sourceInfo.sourceName}}</span>
+            <button type="button" id="subscribeDel" style="display: none;" class="btn btn-default right subscribe" onclick="subscribeDel({{sourceInfo.id}})">已关注</button>
+            <button type="button" id="subscribeAdd" class="btn btn-primary right subscribe" onclick="subscribeAdd({{sourceInfo.id}})">关注</button>
+        </div>
     </div>
-    <div class="pull-left index-middle" style="width: 800px;">
+    <div class="pull-left index-middle" style="width: 800px;" id="app">
         <ul class="nav nav-tabs">
             <li class="active">文章</li>
         </ul>
@@ -119,17 +124,18 @@
                     </li>
                 </template>
             </ul>
-            <div class="text-center" style="line-height: 50px;" v-if="loading">数据加载中。。。</div>
+            <div class="text-center" style="line-height: 50px;" v-if="loading == 1">数据加载中。。。</div>
+            <div class="text-center" style="line-height: 50px;" v-else>已看到底了</div>
         </div>
     </div>
     <div class="pull-right index-right">
         <div class="text-center clearfix fans">
             <div class="col-6">
-                <p>11</p>
+                <p>{{sourceInfo.subscribe}}</p>
                 <span>关注</span>
             </div>
             <div class="col-6">
-                <p>323232</p>
+                <p id="fans">{{sourceInfo.fans}}</p>
                 <span>粉丝</span>
             </div>
         </div>
@@ -143,5 +149,105 @@
 {% endblock %}
 
 {% block script %}
+<script>
+    
+    function subscribe(isSubscribe){
+        if(isSubscribe){
+            $('#subscribeDel').show();
+            $('#subscribeAdd').hide();
+        }else {
+            $('#subscribeAdd').show();
+            $('#subscribeDel').hide();
+        }
+    }
+    subscribe({{isSubscribe}})
+    function subscribeAdd(id) {
+         $.ajax({
+            url: '/API/subscribe/subscribeAdd',
+            cache:false,
+            dataType: 'json',
+            data:{id:id},
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+            },
+            success: function (res) {
+                if(res.code === '200'){
+                    subscribe(true)
+                    $("#fans").text(Number($("#fans").text()) + 1)
+                    // $.alerts('success','关注成功')
+                }else if(res.code === '401'){
+                    document.location.href = '/login'
+                }
+            },
+         })
+    }
+    function subscribeDel(id) {
+         $.ajax({
+            url: '/API/subscribe/subscribeDel',
+            cache:false,
+            dataType: 'json',
+            data:{id:id},
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+            },
+            success: function (res) {
+                if(res.code === '200'){
+                    subscribe(false)
+                    $("#fans").text(Number($("#fans").text()) - 1)
+                    // $.alerts('success', '取消关注')
+                }else if(res.code === '401'){
+                    document.location.href = '/login'
+                }
+            },
+         })
+        }
 
+    var vm = new Vue({
+      el: '#app',
+      data: {count:1,rows:[],loading:0},
+      methods: {
+        resdata: function () {
+          if(!vm.loading) {
+            vm.loading = 1;
+            $.ajax({
+              url:'/API/sourceArticleList/{{sourceInfo.id}}/' + (vm.count + 1),
+              type: 'get',
+              cache: false,
+              dataType: 'json',
+              beforeSend: function (XMLHttpRequest) {
+                  XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+              },
+              success: function (res) {
+                if(res.code === '200'){
+                  vm.count++;
+                  vm.rows = vm.rows.concat(res.data.rows);
+                }
+                if(res.data.rows.length < 10){
+                    vm.loading = 2;
+                } else{
+                    vm.loading = 0;
+                }
+              },
+              error: function(err){
+                vm.loading = 2;
+                $.alerts('error','网络请求失败');
+              }
+            })
+          }
+        }
+      },
+    })
+
+    $(window).scroll(function(){
+        if(!vm.loading){
+            var $this =$(this),
+            viewH =$(this).height(),//可见高度
+            contentH =$('#app').height(),//内容高度
+            scrollTop =$(this).scrollTop();//滚动高度
+            if(contentH - viewH - scrollTop <= 100) { //当滚动到距离底部100px时,
+              vm.resdata()
+            }
+        }
+     });
+</script>
 {% endblock %}

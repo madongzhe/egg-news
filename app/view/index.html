@@ -110,11 +110,11 @@
   <script>
     var vm = new Vue({
       el: '#app',
-      data: {count:1,rows:[],loading:false},
+      data: {count:1,rows:[],loading:0},
       methods: {
         resdata: function () {
           if(!vm.loading) {
-            vm.loading = true;
+            vm.loading = 1;
             $.ajax({
               url:'/articleList/' + (vm.count + 1),
               type: 'post',
@@ -125,10 +125,14 @@
                   XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
               },
               success: function (res) {
-                vm.loading = false;
                 if(res.code === '200'){
                   vm.count++;
                   vm.rows = vm.rows.concat(res.data.rows);
+                }
+                if(res.data.rows.length < 10){
+                    vm.loading = 2;
+                } else{
+                    vm.loading = 0;
                 }
               },
               error: function(err){
@@ -142,6 +146,7 @@
     })
 
     $(window).scroll(function(){
+      if(!vm.loading){
         var $this =$(this),
         viewH =$(this).height(),//可见高度
         contentH =$('#app').height(),//内容高度
@@ -149,6 +154,7 @@
         if(contentH - viewH - scrollTop <= 100) { //当滚动到距离底部100px时,
           vm.resdata()
         }
+      }
      });
   </script>
 {% endblock %}

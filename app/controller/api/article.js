@@ -18,14 +18,14 @@ class ArticleController extends Controller {
       // 校验参数
       ctx.validate(createRule, ctx.params);
     } catch (error) {
-      ctx.helper.fuil();
+      ctx.helper.fail();
     }
     const id = ctx.params.id;
     const res = await ctx.service.article.article(id);
     if (res) {
       ctx.helper.success(res);
     } else {
-      ctx.helper.fuil();
+      ctx.helper.fail();
     }
   }
 

@@ -393,6 +393,10 @@ b, em, h1, h2, h3, h4, h5, h6, strong {
   text-align: center;
 }
 
+.right {
+  float: right;
+}
+
 [col-] {
   float: left;
 }
@@ -1203,10 +1207,32 @@ button.close {
   overflow: scroll;
 }
 
-.source .banner {
-  background-color: #ccc;
-  height: 200px;
+.source .head {
   margin-bottom: 15px;
+}
+
+.source .head .title {
+  margin: 5px 20px;
+  position: relative;
+}
+
+.source .head .title .logo {
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+  background-color: #efefef;
+  position: absolute;
+  margin-top: -40px;
+}
+
+.source .head .title .source_name {
+  margin-left: 100px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.source .head .title .subscribe {
+  width: 100px;
 }
 
 .source .nav-tabs {

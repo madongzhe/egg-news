@@ -15,7 +15,12 @@ class SourceController extends Controller {
     }
     const sourceId = ctx.params.id;
     const res = await ctx.service.article.sourceArticleList(sourceId);
-    await ctx.render('source.html', res);
+    const sourceInfo = await ctx.service.admin.source.selone(sourceId);
+    let isSubscribe = false;
+    if (ctx.session.users) {
+      isSubscribe = await ctx.service.source.isSubscribe(sourceId, ctx.session.users.id);
+    }
+    await ctx.render('source.html', { ...res, sourceInfo, isSubscribe });
   }
 }
 

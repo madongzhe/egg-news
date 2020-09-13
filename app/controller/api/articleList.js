@@ -46,6 +46,27 @@ class ArticleListController extends Controller {
       ctx.helper.error();
     }
   }
+
+  /**
+   * 媒体文章列表
+   * @memberof ArticleListController
+   */
+  async sourceArticleList() {
+    const { ctx } = this;
+    const createRule = {
+      sourceid: 'int',
+      page: 'int',
+    };
+    // 校验参数
+    ctx.validate(createRule, ctx.params);
+    const { sourceid, page } = ctx.params;
+    const res = await ctx.service.article.sourceArticleList(sourceid, page);
+    if (res) {
+      ctx.helper.success(res);
+    } else {
+      ctx.helper.error();
+    }
+  }
 }
 
 module.exports = ArticleListController;

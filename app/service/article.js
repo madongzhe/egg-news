@@ -81,7 +81,7 @@ class ArticleService extends Service {
   }
 
   /**
-   * 查询单个媒体文章
+   * 查询单个媒体文章列表
    *
    * @param {*} sourceId 媒体id
    * @param {number} [page=1] 第几页
@@ -215,11 +215,11 @@ class ArticleService extends Service {
   }
   /**
    * 媒体文章列表
-   * @param {*} sourceId
-   * @param {number} [page=1]
-   * @param {number} [size=10]
-   * @param {number} [status=1]
-   * @return
+   * @param {*} sourceId 媒体id
+   * @param {number} [page=1] 当前页
+   * @param {number} [size=10] 条数
+   * @param {number} [status=1] 状态
+   * @return {*} /
    * @memberof ArticleService
    */
   async sourceArticleList(sourceId, page = 1, size = 10, status = 1) {
