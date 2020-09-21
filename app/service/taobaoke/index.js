@@ -87,7 +87,7 @@ class TaobaokeService extends Service {
   }
 
   /**
-   * 淘宝客-公用-链接解析出商品id 
+   * 淘宝客-公用-链接解析出商品id
    *
    * @param {string} click_url 长链接或短链接
    * @return
@@ -106,7 +106,7 @@ class TaobaokeService extends Service {
   }
 
   /**
-   * 淘宝客-公用-阿里妈妈推广券详情查询 
+   * 淘宝客-公用-阿里妈妈推广券详情查询
    *
    * @param {int} item_id 商品ID(非必填)
    * @return
@@ -129,7 +129,7 @@ class TaobaokeService extends Service {
    *
    * @param {String} text 口令弹框内容
    * @param {String} url 口令跳转目标页
-   * @returns
+   * @return
    * @memberof TaobaokeService
    */
   async taobaoTbkTpwdCreate(text, url) {
@@ -146,10 +146,10 @@ class TaobaokeService extends Service {
   }
 
   /**
-   * 淘宝客-推广者-物料搜索 
+   * 淘宝客-推广者-物料搜索
    *
    * @param {string} [par={ q: '情趣睡衣' }]
-   * @returns
+   * @return
    * @memberof TaobaokeService
    */
   async taobaoTbkDgMaterialOptional(par = { q: '情趣睡衣' }) {
@@ -157,21 +157,20 @@ class TaobaokeService extends Service {
       method: 'taobao.tbk.dg.material.optional',
       adzone_id,
       ...par,
+    };
+    const res = await this.common(paramet);
+    if (res.res.status === 200) {
+      return res.data.tbk_dg_material_optional_response.result_list;
     }
-    const res = await this.common(paramet)
-    if (res.res.status == 200) {
-      return res.data.tbk_dg_material_optional_response.result_list
-    }
-    return '请求数据失败'
+    return '请求数据失败';
   }
-
 
   /**
    * 淘宝客-推广者-物料精选
    *
    * @param {*} material_id
    * @param {*} par
-   * @returns
+   * @return
    * @memberof TaobaokeService
    */
   async taobaoTbkDgOptimusMaterial(material_id, par) {
@@ -180,12 +179,12 @@ class TaobaokeService extends Service {
       adzone_id,
       material_id,
       ...par,
+    };
+    const res = await this.common(paramet);
+    if (res.res.status === 200) {
+      return res.data.tbk_shop_get_response.results;
     }
-    const res = await this.common(paramet)
-    if (res.res.status == 200) {
-      return res.data.tbk_shop_get_response.results
-    }
-    return '请求数据失败'
+    return '请求数据失败';
   }
 }
 module.exports = TaobaokeService;
