@@ -153,7 +153,7 @@ module.exports = {
    * @param {*} ms 延迟时间
    */
   async delay(ms) {
-    setTimeout(function() {
+    setTimeout(function () {
       return 1;
     }, ms);
   },
@@ -188,5 +188,56 @@ module.exports = {
       console.log(ex);
       return 0;
     });
+  },
+  /**
+   * 按ascii码从小到大排序
+   * @param {json} obj  排序对象
+   * @return {string} 结果
+   */
+  async sort_ascii(obj) {
+    const arr = [];
+    let num = 0;
+    for (const i in obj) {
+      arr[num] = i;
+      num++;
+    }
+    const sortArr = arr.sort();
+    let str = '';// 自定义排序字符串
+    for (const i in sortArr) {
+      // str += sortArr[i] + '=' + obj[sortArr[i]] + '&';
+      str += sortArr[i] + obj[sortArr[i]];
+    }
+    // 去除两侧字符串
+    // const char = '&';
+    // str = str.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
+
+    return str;
+  },
+
+  /**
+   * 时间格式化
+   *
+   * @param {*} date
+   * @param {*} fmt
+   * @return
+   */
+  async dateFormat(date, fmt) {
+    let ret;
+    const opt = {
+      'Y+': date.getFullYear().toString(), // 年
+      'M+': (date.getMonth() + 1).toString(), // 月
+      'D+': date.getDate().toString(), // 日
+      'H+': date.getHours().toString(), // 时
+      'm+': date.getMinutes().toString(), // 分
+      's+': date.getSeconds().toString(), // 秒
+      // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    };
+    for (const k in opt) {
+      ret = new RegExp('(' + k + ')').exec(fmt);
+      if (ret) {
+        fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')));
+      }
+    }
+    return fmt;
   },
 };
