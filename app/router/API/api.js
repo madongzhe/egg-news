@@ -6,4 +6,5 @@
 module.exports = app => {
   require('./article')(app);
   require('./subscribe')(app);
+  require('./tbk')(app);
 };

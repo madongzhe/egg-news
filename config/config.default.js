@@ -74,7 +74,8 @@ module.exports = appInfo => {
   config.http_img = '';
   // add your user config here
   const userConfig = {
-    // myAppName: 'egg',
+    myAppName: 'egg-taobaoke',
+    app_key: '',
   };
 
   return {

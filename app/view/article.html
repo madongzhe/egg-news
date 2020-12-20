@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 
 {% block title %}{{article.title}}-{{site.name}}{% endblock %}
-
+{% block head %}
+<meta name="description" content="{{article.content|replace_str}}">
+{% endblock %}
 {% block header %}
 <div class="middlebar">
     <div class="middlebar-inner clearfix" style="width: 1170px;">
