@@ -22,9 +22,17 @@ exports.formatDate = (date, format) => {
   return format;
 };
 
-exports.image = (date, num = 0) => {
-  if (date) {
-    return date.split(',')[num];
+exports.image = (data, num = 0) => {
+  if (data) {
+    return data.split(',')[num];
   }
   return '/public/image.png';
 };
+
+exports.replace_str = (data) => {
+  if (data) {
+    return data.replace(/<.*?>/g, '').replace(/\s+/g, "").slice(0, 200)
+  } else {
+    return ''
+  }
+}
