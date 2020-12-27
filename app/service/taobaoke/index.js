@@ -30,15 +30,15 @@ class TaobaokeService extends Service {
 
   /**
    * 淘宝客-推广者-店铺搜索
-   * @param {string} q 搜索关键字
+   * @param {string} data 搜索关键字
    * @return
    * @memberof TaobaokeService
    */
-  async taobaoTbkShopGet(q) {
+  async taobaoTbkShopGet(data) {
     const paramet = {
       method: 'taobao.tbk.shop.get',
       fields: 'user_id,shop_title,shop_type,seller_nick,pict_url,shop_url',
-      q,
+      ...data,
     }
     const res = await this.common(paramet)
     if (res.res.status == 200) {
@@ -148,19 +148,23 @@ class TaobaokeService extends Service {
   /**
    * 淘宝客-推广者-物料搜索
    *
-   * @param {string} [par={ q: '情趣睡衣' }]
+   * @param {json} data
    * @return
    * @memberof TaobaokeService
    */
-  async taobaoTbkDgMaterialOptional(par = { q: '情趣睡衣' }) {
+  async taobaoTbkDgMaterialOptional(data) {
     const paramet = {
       method: 'taobao.tbk.dg.material.optional',
       adzone_id,
-      ...par,
+      ...data,
     };
     const res = await this.common(paramet);
     if (res.res.status === 200) {
-      return res.data.tbk_dg_material_optional_response.result_list;
+      if (res.data.tbk_dg_material_optional_response) {
+        return res.data.tbk_dg_material_optional_response.result_list;
+      } else {
+        return res.data
+      }
     }
     return '请求数据失败';
   }

@@ -18,4 +18,8 @@ module.exports = {
     enable: true,
     package: 'egg-validate',
   },
+  cors: {
+    enable: true,
+    package: 'egg-cors',
+  },
 };

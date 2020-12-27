@@ -11,6 +11,7 @@
     "await-stream-ready": "^1.0.1",
     "cheerio": "^1.0.0-rc.3",
     "egg": "^2.15.1",
+    "egg-cors": "^2.2.3",
     "egg-scripts": "^2.11.0",
     "egg-sequelize": "^5.2.1",
     "egg-validate": "^2.0.2",

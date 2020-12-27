@@ -50,14 +50,31 @@ class TbkController extends Controller {
   async taobaoTbkDgMaterialOptional() {
     const createRule = {
       q: 'string',
+      page_no: 'int',
+      platform: 'int',
     };
     try {
-      this.ctx.validate(createRule, this.ctx.query);
+      this.ctx.validate(createRule, this.ctx.request.body);
     } catch (error) {
       this.ctx.helper.error();
     }
-    const q = this.ctx.query.q;
-    const res = await this.ctx.service.taobaoke.index.taobaoTbkDgMaterialOptional({ q });
+    const { page_no, q, platform = 2 } = this.ctx.request.body;
+    const res = await this.ctx.service.taobaoke.index.taobaoTbkDgMaterialOptional({ page_no, q, platform });
+    this.ctx.helper.success(res);
+  }
+
+  async taobaoTbkDgOptimusMaterial() {
+    const createRule = {
+      material_id: 'string',
+      page_no: 'int',
+    };
+    try {
+      this.ctx.validate(createRule, this.ctx.request.body);
+    } catch (error) {
+      this.ctx.helper.error();
+    }
+    const { material_id, page_no } = this.ctx.request.body;
+    const res = await this.ctx.service.taobaoke.index.taobaoTbkDgOptimusMaterial({ material_id, page_no });
     this.ctx.helper.success(res);
   }
 }

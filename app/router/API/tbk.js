@@ -5,7 +5,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/API/tbk/taobaoTbkShopGet', controller.api.tbk.taobaoTbkShopGet);
-  router.get('/API/tbk/taobaoTbkItemInfoGet', controller.api.tbk.taobaoTbkItemInfoGet);
-  router.get('/API/tbk/taobaoTbkDgMaterialOptional', controller.api.tbk.taobaoTbkDgMaterialOptional);
+  router.post('/API/tbk/taobaoTbkShopGet', controller.api.tbk.taobaoTbkShopGet);
+  router.post('/API/tbk/taobaoTbkItemInfoGet', controller.api.tbk.taobaoTbkItemInfoGet);
+  router.post('/API/tbk/taobaoTbkDgMaterialOptional', controller.api.tbk.taobaoTbkDgMaterialOptional);
 };

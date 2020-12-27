@@ -42,15 +42,16 @@ module.exports = appInfo => {
       ignore: '/API',
     },
     csrf: {
+      enable: false,
       // headerName: 'x-csrf-token', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
       queryName: '_csrf', // 通过 query 传递 CSRF token 的默认字段为 _csrf
       bodyName: '_csrf', // 通过 body 传递 CSRF token 的默认字段为 _csrf
     },
-    domainWhiteList: [ 'http://127.0.0.1:7001' ],
+    domainWhiteList: ['http://127.0.0.1:7001'],
   };
 
   // add your middleware config here
-  config.middleware = [ 'adminauth', 'menus', 'hotNews', 'site', 'gzip', 'usersauth' ];
+  config.middleware = ['adminauth', 'menus', 'hotNews', 'site', 'gzip', 'usersauth'];
   config.adminauth = {
     match: '/admin',
   };
@@ -68,7 +69,7 @@ module.exports = appInfo => {
 
   config.static = {
     prefix: '/public/',
-    dir: [ 'app/public', 'app/upload' ],
+    dir: ['app/public', 'app/upload'],
   };
   // 上传图片保存路径
   config.http_img = '';
@@ -77,7 +78,10 @@ module.exports = appInfo => {
     myAppName: 'egg-taobaoke',
     app_key: '',
   };
-
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  };
   return {
     ...config,
     ...userConfig,
