@@ -38,16 +38,20 @@ module.exports = appInfo => {
   };
 
   config.security = {
-    csp: {
-      ignore: '/API',
-    },
     csrf: {
-      enable: false,
+      ignore: ctx => {
+        if (ctx.request.url.indexOf('/API') != -1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      // enable: false,
       // headerName: 'x-csrf-token', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
       queryName: '_csrf', // 通过 query 传递 CSRF token 的默认字段为 _csrf
       bodyName: '_csrf', // 通过 body 传递 CSRF token 的默认字段为 _csrf
     },
-    domainWhiteList: ['http://127.0.0.1:7001'],
+    domainWhiteList: [],
   };
 
   // add your middleware config here

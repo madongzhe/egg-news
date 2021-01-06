@@ -3,158 +3,168 @@
 {% block title %}{{site.name}}{% endblock %}
 
 {% block content %}
-    <div class="index-container clearfix">
-        <div class="pull-left index-channel">
-            {% include "leftmenu.html" %}
-        </div>
-        <div class="pull-left index-content" id="app">
-            <ul>
-              {% for item in rows %}
-                {% if item.images %}
-                  <li>
-                    <div class="single-mode">
-                      <div class="pull-left single-mode-lbox">
-                        <a href="/p/{{item.id}}.html" target="_blank" class="img-wrap"><img class="lazy-load-img" src="{{item.images|image}}" style="width: 160px;" alt=""></a>
-                      </div>
-                      <div class="single-mode-rbox clearfix">
-                        <div class="single-mode-rbox-inner">
-                          <div class="title-box"><a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a></div>
-                          <div class="bui-box footer-bar">
-                            <a href="/category/{{item.category.englishName}}" target="_blank" class="footer-bar-action tag">{{item.category.name}}</a>
-                            <a href="/source/{{item.source.id}}" class="footer-bar-action source">{{item.source.sourceName}}</a>
-                            <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                {% else %}
-                  <li>
-                    <div class="no-mode">
-                      <div class="title-box">
-                        <a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a>
-                      </div>
-                      <div class="bui-box footer-bar">
-                        <div class="bui-left footer-bar-left">
-                          <a href="/category/{{item.category.englishName}}" target="_blank" class="footer-bar-action tag">{{item.category.name}}</a>
-                          <a href="/source/{{item.source.id}}" target="_blank" class="footer-bar-action source">{{item.source.sourceName}}</a>
-                          <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                {% endif %}
-              {% endfor %}
-              <template v-for="item in rows">
-                <li v-if="item.images">
-                    <div class="single-mode">
-                        <div class="pull-left single-mode-lbox">
-                          <a :href="'/p/'+item.id" target="_blank" class="img-wrap">
-                            <img class="lazy-load-img" :src="item.images.split(',')[0]" style="width: 160px;" alt="">
-                          </a>
-                        </div>
-                        <div class="single-mode-rbox clearfix">
-                          <div class="single-mode-rbox-inner">
-                            <div class="title-box">
-                              <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
-                            </div>
-                            <div class="bui-box footer-bar">
-                              <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag"  :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
-                              <a :href="'/source/'+item.source.id" class="footer-bar-action source" v-text="item.source.sourceName"></a>
-                              <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                </li>
-                <li v-else>
-                  <div class="no-mode">
-                    <div class="title-box">
-                      <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
-                    </div>
-                    <div class="bui-box footer-bar">
-                      <div class="bui-left footer-bar-left">
-                        <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag" :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
-                        <a :href="'/source/'+item.source.id" target="_blank" class="footer-bar-action source" v-text="item.source.sourceName"></a>
-                        <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </template>
-            </ul>
-            <div class="text-center" style="line-height: 50px;" v-if="loading">数据加载中。。。</div>
-        </div>
-        <div class="pull-right index-right-bar">
-          {% include 'common/search.html' %}
-          <!-- 24小时热闻 -->
-          {% include 'hotnews.html' %}
-          <!-- 友情链接 -->
-          <div class="ui-box">
-            <div class="pane-module">
-              <div class="module-head">友情链接</div>
-              <ul class="friend-links-content">
-                {% for item in link %}
-                <li class="item">
-                  <a rel="noopener noreferrer" target="_blank" href="{{item.linkUrl}}">{{item.linkName}}</a>
-                </li>
-                {% endfor %}
-              </ul>
+<div class="index-container clearfix">
+  <div class="pull-left index-channel">
+    {% include "leftmenu.html" %}
+  </div>
+  <div class="pull-left index-content" id="app">
+    <ul>
+      {% for item in rows %}
+      {% if item.images %}
+      <li>
+        <div class="single-mode">
+          <div class="pull-left single-mode-lbox">
+            <a href="/p/{{item.id}}.html" target="_blank" class="img-wrap"><img class="lazy-load-img"
+                src="{{item.images|image}}" style="width: 160px;" alt=""></a>
+          </div>
+          <div class="single-mode-rbox clearfix">
+            <div class="single-mode-rbox-inner">
+              <div class="title-box"><a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a></div>
+              <div class="bui-box footer-bar">
+                <a href="/category/{{item.category.englishName}}" target="_blank"
+                  class="footer-bar-action tag">{{item.category.name}}</a>
+                <a href="/source/{{item.source.id}}" class="footer-bar-action source">{{item.source.sourceName}}</a>
+                <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+              </div>
             </div>
           </div>
         </div>
+      </li>
+      {% else %}
+      <li>
+        <div class="no-mode">
+          <div class="title-box">
+            <a href="/p/{{item.id}}.html" target="_blank" class="link">{{item.title}}</a>
+          </div>
+          <div class="bui-box footer-bar">
+            <div class="bui-left footer-bar-left">
+              <a href="/category/{{item.category.englishName}}" target="_blank"
+                class="footer-bar-action tag">{{item.category.name}}</a>
+              <a href="/source/{{item.source.id}}" target="_blank"
+                class="footer-bar-action source">{{item.source.sourceName}}</a>
+              <span class="footer-bar-action">{{item.createdAt|formatDate('YYYY-MM-DD HH:mm')}}</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor %}
+      <template v-for="item in rows">
+        <li v-if="item.images">
+          <div class="single-mode">
+            <div class="pull-left single-mode-lbox">
+              <a :href="'/p/'+item.id" target="_blank" class="img-wrap">
+                <img class="lazy-load-img" :src="item.images.split(',')[0]" style="width: 160px;" alt="">
+              </a>
+            </div>
+            <div class="single-mode-rbox clearfix">
+              <div class="single-mode-rbox-inner">
+                <div class="title-box">
+                  <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
+                </div>
+                <div class="bui-box footer-bar">
+                  <a :href="'/category/'+item.category.englishName" class="footer-bar-action tag"
+                    :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
+                  <a :href="'/source/'+item.source.id" class="footer-bar-action source"
+                    v-text="item.source.sourceName"></a>
+                  <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li v-else>
+          <div class="no-mode">
+            <div class="title-box">
+              <a :href="'/p/'+item.id" target="_blank" class="link" v-text="item.title"></a>
+            </div>
+            <div class="bui-box footer-bar">
+              <div class="bui-left footer-bar-left">
+                <a :href="'/category/'+item.category.englishName" target="_blank" class="footer-bar-action tag"
+                  :class="'tag-style-'+item.category.englishName" v-text="item.category.name"></a>
+                <a :href="'/source/'+item.source.id" target="_blank" class="footer-bar-action source"
+                  v-text="item.source.sourceName"></a>
+                <span class="footer-bar-action" v-text="formatDate(item.createdAt, 'YYYY-mm-dd HH:MM')"></span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </template>
+    </ul>
+    <div class="text-center" style="line-height: 50px;" v-if="loading">数据加载中。。。</div>
+  </div>
+  <div class="pull-right index-right-bar">
+    {% include 'common/search.html' %}
+    <!-- 24小时热闻 -->
+    {% include 'hotnews.html' %}
+    <!-- 友情链接 -->
+    <div class="ui-box">
+      <div class="pane-module">
+        <div class="module-head">友情链接</div>
+        <ul class="friend-links-content">
+          {% for item in link %}
+          <li class="item">
+            <a rel="noopener noreferrer" target="_blank" href="{{item.linkUrl}}">{{item.linkName}}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
+    <!-- 备案号 -->
+    {% include 'footer.html' %}
+  </div>
+</div>
 {% endblock %}
 
 {% block script %}
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {count:1,rows:[],loading:0},
-      methods: {
-        resdata: function () {
-          if(!vm.loading) {
-            vm.loading = 1;
-            $.ajax({
-              url:'/articleList/' + (vm.count + 1),
-              type: 'post',
-              cache: false,
-              dataType: 'json',
-              data:{},
-              beforeSend: function (XMLHttpRequest) {
-                  XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
-              },
-              success: function (res) {
-                if(res.code === '200'){
-                  vm.count++;
-                  vm.rows = vm.rows.concat(res.data.rows);
-                }
-                if(res.data.rows.length < 10){
-                    vm.loading = 2;
-                } else{
-                    vm.loading = 0;
-                }
-              },
-              error: function(err){
-                vm.loading = false;
-                $.alerts('error','网络请求失败');
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: { count: 1, rows: [], loading: 0 },
+    methods: {
+      resdata: function () {
+        if (!vm.loading) {
+          vm.loading = 1;
+          $.ajax({
+            url: '/articleList/' + (vm.count + 1),
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {},
+            beforeSend: function (XMLHttpRequest) {
+              XMLHttpRequest.setRequestHeader("x-csrf-token", $.cookie('csrfToken'));
+            },
+            success: function (res) {
+              if (res.code === '200') {
+                vm.count++;
+                vm.rows = vm.rows.concat(res.data.rows);
               }
-            })
-          }
-        }
-      },
-    })
-
-    $(window).scroll(function(){
-      if(!vm.loading){
-        var $this =$(this),
-        viewH =$(this).height(),//可见高度
-        contentH =$('#app').height(),//内容高度
-        scrollTop =$(this).scrollTop();//滚动高度
-        if(contentH - viewH - scrollTop <= 100) { //当滚动到距离底部100px时,
-          vm.resdata()
+              if (res.data.rows.length < 10) {
+                vm.loading = 2;
+              } else {
+                vm.loading = 0;
+              }
+            },
+            error: function (err) {
+              vm.loading = false;
+              $.alerts('error', '网络请求失败');
+            }
+          })
         }
       }
-     });
-  </script>
+    },
+  })
+
+  $(window).scroll(function () {
+    if (!vm.loading) {
+      var $this = $(this),
+        viewH = $(this).height(),//可见高度
+        contentH = $('#app').height(),//内容高度
+        scrollTop = $(this).scrollTop();//滚动高度
+      if (contentH - viewH - scrollTop <= 100) { //当滚动到距离底部100px时,
+        vm.resdata()
+      }
+    }
+  });
+</script>
 {% endblock %}
